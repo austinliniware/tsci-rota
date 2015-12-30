@@ -1,0 +1,128 @@
+<?php require_once(ROOT_PATH.'Tpl/qa_list.php');?>
+<div class="baseBtn functionBtnBox">
+	<?php if ($action!="patient_1") {?><input class="prevBtn" type="submit" id="prev_btn" value="" /><?php }?>
+	<?php if ($action!="patient_13") {?><input class="nextStepBtn" type="submit" id="next_step" value="" /> 
+	<?php } else {?><input class="storeBtn" type="button" id="store_btn" value="" /><?php }?>
+	
+	<?php if ($customerInfo['group_id']>=2) {?>
+	<?php if ($qastatus[$actionkey]) {?><input class="finishBtn" type="button" id="finish_btn" value="" /><?php }?>
+	<input class="questionBtn" type="button" id="qa_btn" value="" />
+	<?php } else if ($qastatus[$actionkey]) {?><input class="replyBtn" type="button" id="qa_btn" value="" /><?php }?>
+	<div class="btnBox">
+ <input class="patientListBtn_02" type="button" id="patientList_btn" value="" />
+  </div>
+    <div class="clearfloat"></div>
+</div>
+<div id="dialog-form" title="<?php echo ($customerInfo['group_id']>=2?"提問":"回覆");?>" style="display:none;">
+<table border="0" cellpadding="0" cellspacing="0" width="100%">
+  <tr valign="top">
+    <td width="50">內容：</td>
+    <td>
+	<textarea id="qa_content" style="width:100%;height:120px"></textarea>
+	</td>
+  </tr>
+</table>
+</div>
+<script type="text/javascript">
+<!--
+$(document).ready(function(){
+<?if ($ModifyPermission) {?>
+	var today = new Date();
+	var dd = today.getDate();
+	var mm = today.getMonth()+1; //January is 0!
+	var yyyy = today.getFullYear();
+	if(dd<10) { dd='0'+dd;} 
+	if(mm<10) { mm='0'+mm;} 
+
+	today = yyyy+'-'+mm+'-'+dd;
+	$("input[name=signature]").click(function(){
+	if (this.checked) $("input[name=date_added]").val(today);
+	else $("input[name=date_added]").val('');
+	});
+<?}?>
+
+	$("#dialog-form").dialog({
+		//bgiframe: true,
+		autoOpen: false,
+		width: 450,
+		height: 250,
+		modal: true,
+		// title: "",
+		buttons: {
+			'送出儲存': function() {
+				if ($("#qa_content").val()!="") {
+				$.ajax({
+				   type: "POST",
+				   url: "ajax/case_fun.php",
+				   data: "do=qa&action=<?=$action;?>&id=<?=$_SESSION['patient_id']?>&content="+$("#qa_content").val(),
+				   success: function(msg){
+					 // alert(msg);
+					 $("#dialog-form").dialog('close');
+					 location.reload();
+				   }
+				}); 
+				} else $("#dialog-form").dialog('close');
+			},
+			'關閉取消': function() {
+				$(this).dialog('close');
+			}
+		},
+		close: function() {
+			// allFields.val('').removeClass('ui-state-error');
+		}
+	});
+	$("#qa_btn").click(function(){
+		$("#dialog-form").dialog( "open" );
+	});
+
+	var dofun = new Array();
+	$("#prev_btn").click(function(){
+		$("input[name=do][type=hidden]").val('prev');
+		<?if ($ModifyPermission) {?>dofun = checkForm();
+		$("input[name=finish][type=hidden]").val(dofun['status']);
+		if (dofun['status']<=0) if(!confirm(dofun['msg']+"\n\n未填寫完全,確定儲存離開嗎?"))return false;<?}?>
+	});
+	$("#next_step").click(function(){
+		$("input[name=do][type=hidden]").val('next');
+		<?if ($ModifyPermission) {?>dofun = checkForm();
+		$("input[name=finish][type=hidden]").val(dofun['status']);
+		if (dofun['status']<=0) if(!confirm(dofun['msg']+"\n\n未填寫完全,確定儲存離開嗎?"))return false;<?}?>
+	});
+	$(".patientListBtn, #patientList_btn, #store_btn").click(function(){
+		$("input[name=do][type=hidden]").val('list');
+		<?if ($ModifyPermission) {?>dofun = checkForm();
+		$("input[name=finish][type=hidden]").val(dofun['status']);
+		if (dofun['status']<=0) {
+		if(!confirm(dofun['msg']+"\n\n未填寫完全,確定儲存離開嗎?"))return false;
+		else document.form1.submit();
+		} else <?}?>document.form1.submit();
+	});
+	$("#cancel_btn").click(function(){
+		if(confirm("確定取消簽署嗎?")) {
+			$.ajax({
+			   type: "POST",
+			   url: "ajax/case_fun.php",
+			   data: "do=cancel&action=<?=$action;?>&id=<?=$_SESSION['patient_id']?>",
+			   success: function(msg){
+				 alert('取消完成');
+				 location.reload();
+			   }
+			}); 
+		}
+	});
+	$("#finish_btn").click(function(){
+		if(confirm("確定結束提問嗎?")) {
+			$.ajax({
+			   type: "POST",
+			   url: "ajax/case_fun.php",
+			   data: "do=finish&action=<?=$action;?>&id=<?=$_SESSION['patient_id']?>",
+			   success: function(msg){
+				 // alert('取消完成');
+				 location.reload();
+			   }
+			}); 
+		}
+	});
+})
+//-->
+</script>

@@ -1,0 +1,483 @@
+@charset "utf-8";
+/* CSS Document */
+
+/*--------------------------------上標字-----------------------------------*/
+.sup {
+	font-size:11px;
+	position:relative;
+	top:-5px;
+	padding-right:5px;
+}
+/*------------------------------病人基本資料------------------------------------*/
+.patientDataBox {
+	width:920px;
+	background-color:#d8dbdd;
+	margin-bottom:40px;
+	padding:10px;
+	-webkit-border-radius: 6px;
+	-moz-border-radius: 6px;
+	border-radius: 6px;
+}
+.patientDataBox b {
+	display:block;
+	font-size:15px;
+	font-weight:bold;
+	border-bottom:solid 1px #effcfe;
+	margin-bottom:10px;
+	padding-bottom:3px;
+	padding-left:10px;
+}
+.patientDataBox ul {
+	list-style:none;
+	padding-left:10px;
+	padding-right:10px;
+}
+.patientDataBox li {
+	width:180px;
+	float:left;
+}
+.patientDataBox li label {
+	padding-right:5px;
+}
+.patientDataBox li span {
+	color:#000;
+}
+/*--------------------------------表單共用-----------------------------------*/
+.formSetBox {
+	margin-bottom:40px;
+}
+.formBox {
+	width:900px;
+	margin-left:auto;
+	margin-right:auto;
+	margin-bottom:30px;
+}
+.formSection {
+	border-bottom:dotted 1px #ccc;
+	padding-top:10px;
+	padding-bottom:10px;
+}
+.formLabel {
+	text-align:right;
+	padding-right:10px;
+	padding-left:10px;
+}
+.formValue {
+}
+.no_title{
+	text-indent:-99999px;
+}
+.formLarge input[type="text"]{
+	width:100px;
+}
+.formMedium input[type="text"]{
+	width:80px;
+}
+.formSmall input[type="text"]{
+	width:60px;
+}
+.formMini input[type="text"]{
+	width:40px;
+}
+.formValue  img{
+	width:80%;
+	display:block;
+}
+.formValue label {
+	margin-right:30px;
+}
+.formValue input {
+	border:solid 1px #e3e9ef;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+}
+.formValue select {
+	height:19px;
+	vertical-align:-1px;
+	border:solid 1px #e3e9ef;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+}
+.formValue input[type="text"] {
+	margin-right:5px;
+}
+.formValue input[type="radio"] {
+	width:auto;
+	vertical-align:-2px;
+	border:none \9;
+	vertical-align:-3px \9;
+}
+.formValue input[type="checkbox"] {
+	width:auto;
+	vertical-align:-2px;
+}
+/*.formSection.no_02, .formSection.no_04, .formSection.no_06, .formSection.no_08, .formSection.no_10, .formSection.no_12, .formSection.no_14, .formSection.no_16, .formSection.no_18, .formSection.no_20, .formSection.no_22, .formSection.no_24 {
+	background-color:#f6f6f6;
+}*/
+.formSection:nth-child(even) {
+	background-color:#f6f6f6;
+}
+.formValue ul {
+	list-style:none;
+}
+/*--------------------------------------醫生簽名---------------------------------*/
+.doctorsSignoffBox {
+	width:900px;
+	padding-top:20px;
+	padding-left:20px;
+	padding-right:20px;
+	border-top:dashed 1px #dcdcdc;
+	margin-left:auto;
+	margin-right:auto;
+	margin-bottom:30px;
+}
+.doctorsSignoffBox .leftBox {
+	width:450px;
+	float:left;
+}
+.doctorsSignoffBox .leftBox input {
+	vertical-align:-2px;
+}
+.doctorsSignoffBox .leftBox span {
+	width:160px;
+	height:30px;
+	display:inline-block;
+	padding-left:10px;
+	padding-right:10px;
+	padding-bottom:5px;
+	border-bottom:solid 1px #999;
+	margin-left:5px;
+	vertical-align:middle;
+}
+.doctorsSignoffBox .rightBox {
+	width:450px;
+	height:36px;
+	float:left;
+}
+.doctorsSignoffBox .rightBox .dateBox {
+	display:inline-block;
+	padding-top:9px;
+	padding-left:5px;
+}
+.doctorsSignoffBox .rightBox .dateBox input[type="text"] {
+	border:solid 1px #e3e9ef;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+}
+/*-----------------------------------按鈕區------------------------------------------------*/
+.functionBtnBox {
+	/*text-align:center;*/
+	margin-bottom:20px;
+}
+.functionBtnBox .btnBox {
+	clear:both;
+	text-align:right;
+	border-top:dotted 1px #ccc;
+	padding-top:15px;
+	margin-top:15px;
+}
+.functionBtnBox input {
+	margin-left:10px;
+	margin-right:10px;
+}
+.functionBtnBox .prevBtn {}
+.functionBtnBox .nextStepBtn {
+	float:right;
+}
+.functionBtnBox .storeBtn {
+	/*float:right;*/
+}
+.functionBtnBox .patientListBtn_02 {
+	/*float:right;*/
+}
+/*-----------------------------------提示文字----------------------------------------------*/
+.prompt {
+	color:#999;
+	padding-left:5px;
+}
+.textStyle_01 {
+	color:#ff4e00;
+	font-weight:bold;
+}
+/*----------------------------------月曆區---------------------------------------*/
+.dateBox {}
+.dateBox label {
+	/*margin-right:25px;*/
+	margin-right:0px;
+}
+/*.dateBox label.no_03 {
+	margin-right:0px;
+}*/
+.dateBox label.no_04 {
+	padding-left:30px;
+	/*margin-right:0px;*/
+}
+.dateBox label.no_05 {
+	padding-left:5px;
+	margin-right:5px;
+}
+.dateBox input {
+	width:80px;
+	margin-right:5px;
+}
+/*.dateBox select {
+	width:64px;
+	margin-right:5px;
+}*/
+/*.dateBox*/ .baseBtn.calendarBtn {
+	width:19px;
+	height:19px;
+	display:inline-block;
+	margin-left:5px;
+}
+/*.dateBox*/ .baseBtn.calendarBtn input {
+	width:19px;
+	border:none;
+}
+/*---------------------------回預設列表頁------------------------------*/
+.patientListBtn {}
+.patientListBtn a {}
+.patientListBtn a:hover {}
+/*-------------------------------病例列表 預設第一頁--------------------------------------------*/
+#CaseList {
+}
+#CaseList .baseBtn {
+	text-align:left;
+	padding-right:10px;
+	margin-bottom:10px;
+}
+#CaseList .baseBtn .addNewPatientBtn {
+	margin-left:auto;
+}
+/*-----------------------------icon 說明-----------------------------*/
+.classDescriptionBox {
+	width:930px;
+	padding-top:10px;
+	margin-bottom:10px;
+	padding-left:10px;
+}
+.classDescriptionBox ul {
+	list-style:none;
+}
+.classDescriptionBox li {
+	float:left;
+	margin-right:40px;
+}
+.classDescriptionBox li span {
+	width:11px;
+	height:11px;
+	display:inline-block;
+	background-image:url(../images/icon_01.jpg);
+	background-repeat:no-repeat;
+	margin-right:5px;
+	vertical-align:-1px;
+}
+.classDescriptionBox li span.status_02 {
+	background-position:left -11px;
+}
+.classDescriptionBox li span.status_03 {
+	background-position:left -22px;
+}
+.classDescriptionBox li span.status_04 {
+	background-position:left -33px;
+}
+.classDescriptionBox li span.status_05 {
+	background-position:left -44px;
+}
+/*------------------------------------------------------------------------------------*/
+.tablefont td{
+	font-size:12px;
+}
+.tableStyleBox_01 {
+	/*width:940px;*/
+	width:100%;
+	margin-bottom:30px;
+}
+.tableStyleBox_01 table {
+	/*width:940px;*/
+	width:100%;
+	/*background-image:url(../images/tableStyleBox_01-thBg.jpg);*/
+	background-repeat:no-repeat;
+	background-position:left top;
+}
+.tableStyleBox_01 th {
+	height:34px;
+	/*border-right:solid 1px #deeef9;*/
+	border:solid 1px #deeef9;
+	background-color:#646b6f;
+	color:#fff;
+}
+.tableStyleBox_01 th.noBor_R {
+	border-right:none;
+}
+.tableStyleBox_01 td {
+	padding-top:7px;
+	padding-bottom:7px;  
+	padding-left:5px;
+	padding-right:5px;
+	border-bottom:dotted 1px #ccc;
+	border-right:dotted 1px #ccc;
+}
+.tableStyleBox_01 .tdBgColor td {
+	background-color:#e4e6e7;
+}
+/*---------------------------------------*/
+.tableStyleBox_01 table table {
+	width:100%;
+	background-image:none;
+}
+.tableStyleBox_01 table table.progress {
+	width:100%;
+	background-image:none;
+}
+.tableStyleBox_01 table .progress th {
+	border-right:solid 1px #deeef9;
+	border-bottom:solid 1px #deeef9;
+	padding-top:5px;
+	padding-bottom:5px;
+}
+.tableStyleBox_01 table .progress th.noBor_B {
+	border-bottom:none;
+}
+.tableStyleBox_01 table .noPadding_LR {
+	padding-left:0px;
+	padding-right:0px;
+}
+.tableStyleBox_01 table table td {
+	border-bottom:none;
+	padding-left:0px;
+	padding-right:0px;
+}
+/*---------------------------------------*/
+.tableStyleBox_01 td ul {
+	list-style:none;
+}
+.tableStyleBox_01 td li {
+	width:11px;
+	height:11px;
+	/*float:left;*/
+	display:inline-block;
+	margin-left:5px;
+	margin-right:5px;
+}
+.tableStyleBox_01 td li a {
+	width:11px;
+	height:11px;
+	display:block;
+	background-image:url(../images/icon_01.jpg);
+	background-repeat:no-repeat;
+}
+.tableStyleBox_01 td li a.status_01 {
+	background-position:left top;
+}
+.tableStyleBox_01 td li a.status_02 {
+	background-position:left -11px;
+}
+.tableStyleBox_01 td li a.status_03 {
+	background-position:left -22px;
+}
+.tableStyleBox_01 td li a.status_04 {
+	background-position:left -33px;
+}
+.tableStyleBox_01 td li a.status_05 {
+	background-position:left -44px;
+}
+/*--------------------------------------------------------*/
+.tableStyleBox_01 td span {
+	width:21px;
+	height:21px;
+	display:block;
+	background-image:url(../images/icon_x-v.jpg);
+	background-repeat:no-repeat;
+	background-position:left top;
+}
+.tableStyleBox_01 td span.icon_x {
+	background-position:left top;
+}
+.tableStyleBox_01 td span.icon_v {
+	background-position:left bottom;
+}
+/*-------------------------------------增加病例-------------------------------------------------*/
+
+.clinical_resultBox .formValue .no_01 span{
+	width: 145px;
+	display:inline-block;
+	text-align:right;
+	margin-right: 10px;
+}
+.general_informationbox .no_05 .formValue label span{
+	width:70px;
+	display:inline-block;
+	text-align:right;
+}
+.patient_sourceBox .no_01 .formValue label span{
+	width:100px;
+	display:inline-block;
+}
+.general_dataBox .no_01 .formValue label{
+	width:250px;
+	display:inline-block;
+}
+.general_dataBox .no_01 .formValue label.no_05{
+	width:100%;
+	display:inline-block;
+	line-height:2em;
+}
+.general_dataBox .no_01 .formValue label.no_05 span{
+	width:100px;
+	display:inline-block;
+}
+.general_dataBox .no_02 .formValue label {
+	width:220px;
+	display:inline-block;
+}
+.general_dataBox .no_03 .formValue label {
+	width:200px;
+	display:inline-block;
+}
+.general_dataBox .no_05 .formValue label {
+	width:220px;
+	display:inline-block;
+}
+.general_dataBox .no_05 .formValue label span{
+	width:35px;
+	display:inline-block;
+}
+.general_dataBox .no_06 .formValue label {
+	width:220px;
+	display:inline-block;
+}
+.general_dataBox .no_07 .formValue label {
+	width:220px;
+	display:inline-block;
+}
+.general_dataBox .no_08 .formValue label span{
+	width:100px;
+	display:inline-block;
+	text-align:right;
+	margin-right:10px;
+}
+.general_dataBox .no_09 .formValue label span{
+	width:180px;
+	display:inline-block;
+}
+.general_dataBox .no_09 .formValue label{
+	display:block;
+}
+.general_dataBox .no_12 .formValue label {
+	width:200px;
+	display:inline-block;
+}
+/*-----------------------------------------病歷表3 ED Presentation---------------------------------------------*/
+.page {}
+.page .formSetBox {}
+.page .formSetBox .formLabel {
+	width:145px;
+}
+.page .formSetBox .formValue {
+	width:735px;
+}
+

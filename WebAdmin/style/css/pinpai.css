@@ -1,0 +1,689 @@
+@charset "utf-8";
+/* CSS Document */
+
+.pinpai-topsearch .pp-s1 {
+	background: #edeef0;
+	border-bottom: 1px solid #d1e2ea;
+}
+.pp-sht   {
+	line-height: 29px;
+	height: 29px;
+	width: 99px;
+	background: url(../images/pinpai/bg-th.gif);
+	text-align: center;
+	float: left;
+	margin-right: 5px;
+}
+.pp-sv  {
+	float: left;
+	line-height: 25px;
+	vertical-align: middle;
+	height: 25px;
+	margin-top: 4px;
+}
+.pp-sv  select  {
+	width: 150px;
+	margin-right: 15px;
+	line-height: 20px;
+	vertical-align: middle;
+	height: 20px;
+}
+.pp-sv  .sub-pp1  {
+	line-height: 18px;
+	font-weight: bold;
+	color: #fff;
+	background: url(../images/common/bg-search-sub.gif);
+	text-align: center;
+	display: inline-block;
+	height: 18px;
+	width: 40px;
+	margin-top: -4px;
+}
+.pinpai-topsearch .pp-s2 {
+	background: #e3e4e5;
+	border-bottom: 1px solid #d1e2ea;
+}
+.pp-s2 .pp-ml {
+	float: left;
+}
+.pp-s2 .pp-ml li {
+	float: left;
+	padding-right: 15px;
+	padding-left: 15px;
+	background: url(../images/pinpai/bg-tline.gif) no-repeat right;
+}
+.pinpai-topsearch .pp-s3 {
+	background: url(../images/pinpai/bg-tbline.gif) repeat-x;
+	border-bottom: 1px solid #d1e2ea;
+	position: relative;
+	height: 25px;
+	width: 100%;
+}
+.pp-s3 .pp-mb {
+	float: left;
+	width: 90%;
+	position: absolute;
+	left: 105px;
+	top: 7px;
+}
+.pp-s3 .pp-mb li {
+	float: left;
+	padding-right: 5px;
+	padding-left: 5px;
+	position: relative;
+}
+.pp-s3 .pp-mb a {
+	display: block;
+	padding: 0px 10px 4px;
+	padding-right: 10px;
+	padding-left: 10px;
+}
+.pp-s3 .pp-mb .pp-dq {
+	background: url(../images/pinpai/bg-tnav.gif) no-repeat center;
+	color: #fff;
+	padding: 2px 10px;
+}
+.pp-s3 .pp-sht {
+	position: absolute;
+	left: 0px;
+	top: 0px;
+}
+.pinpai-topsearch .pp-mi {
+	width: 100%;
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+.pp-mi li {
+	float: left;
+	width: 60px;
+	margin-right: 10px;
+	margin-left: 5px;
+	background: url(../images/common/ico-zhi.gif) no-repeat left;
+	padding-left: 8px;
+	line-height: 27px;
+}
+.pp-anot {
+	width: 938px;
+	padding-left: 20px;
+	padding-top: 15px;
+}
+.pp-anot .pp-antb {
+	background: #e8eaed;
+	padding: 3px;
+	width: 155px;
+	float: left;
+	margin-right: 25px;
+	margin-bottom: 20px;
+}
+.pp-antb .pimg {
+	float: left;
+	margin-right: 5px;
+}
+.pp-antb .ptxt {
+	line-height: 1.8;
+	float: left;
+}
+.pp-wz  {
+	line-height: 34px;
+	background: url(../images/pinpai/bg-wz.gif) repeat-x;
+
+}
+.pp-wz p {
+	background: url(../images/common/ico-wz.gif) no-repeat left;
+	padding-left: 20px;
+	margin-left: 5px;
+}
+.pp-cxnav {
+	background: url(../images/pinpai/pp-cx-titlebg.gif) repeat-x;
+	height: 29px;
+}
+.pp-cxnav h1 {
+	line-height: 27px;
+	font-weight: bold;
+	background: url(../images/pinpai/pp-cx-title.gif);
+	text-align: center;
+	float: left;
+	height: 27px;
+	width: 262px;
+	font-size: 14px;
+	margin-top: 2px;
+	margin-left: 2px;
+}
+.pp-cxnav ul {
+	float: right;
+	width: 600px;
+	margin-left: 15px;
+	margin-top: 3px;
+}
+.pp-cxnav li {
+	float: left;
+	line-height: 26px;
+	width: 90px;
+	margin-right: 10px;
+	text-align: center;
+}
+.pp-cxnav li a {
+	color: #173146;
+	background: url(../images/pinpai/pp-cx-title-nav-02.gif) no-repeat center 0px;
+	display: block;
+}
+.pp-cxnav li a:hover {
+	font-weight: bold;
+	color: #004681;
+	background: url(../images/pinpai/pp-cx-title-nav.gif);
+	text-decoration: none;
+}
+
+.pp-cxnav li .dq {
+	background: url(../images/pinpai/pp-cx-title-nav.gif) no-repeat center 0px;
+	color: #004681;
+	font-weight: bold;
+}
+.pp-main {
+	margin-top: 10px;
+}
+.pp-main .p-left {
+	float: left;
+	width: 366px;
+	margin-right: 13px;
+}
+.p-left .p-bshow {
+}
+.p-bshow .p-bimg {
+	width: 242px;
+	float: left;
+	margin-top: 3px;
+	margin-left: 5px;
+	margin-right: 2px;
+	display: inline;
+}
+.p-bshow .p-simg {
+	float: left;
+	width: 112px;
+	margin-top: 3px;
+}
+.p-bshow .p-simg img {
+	display: block;
+}
+.p-bshow .p-st {
+	clear: both;
+	line-height: 26px;
+	text-align: center;
+}
+.p-left .p-up {
+	padding: 6px;
+}
+.p-up li {
+	line-height: 20px;
+	-line-height: 23px;
+	clear: both;
+}
+.p-up  li a {
+	font-family: Arial;
+	text-decoration: underline;
+}
+.p-up .pp-pf {
+	float: left;
+	margin-right: 40px;
+	font-weight: bold;
+}
+.p-up .pp-pf .yellow {
+	color: #ff6600;
+}
+.p-up .s-esc a {
+	background: url(../images/pinpai/ico-ppsearch.gif) no-repeat left;
+	padding-left: 15px;
+	color: #999;
+	display: block;
+	text-decoration: none;
+}
+.p-up .s-esc a:hover {
+	color: #000066;
+	text-decoration: underline;
+}
+
+.p-up .s-esc {
+	float: left;
+}
+.p-up .pp-sub a {
+	background: #2373c2;
+	display: block;
+	padding: 1px 4px;
+	float: left;
+	margin-right: 10px;
+	font-weight: bold;
+	color: #fff;
+	text-decoration: none;
+	margin-top: 5px;
+}
+
+.pp-main .p-middle {
+	float: left;
+	width: 370px;
+}
+.p-middle .p-news1 {
+}
+.p-news1 h1 {
+	font-size: 14px;
+	line-height: 30px;
+	color: #d60000;
+	text-align: center;
+	border-bottom: 1px solid #9D9D9D;
+	width: 97%;
+	margin-right: auto;
+	margin-left: auto;
+}
+#main .qc-k2 .pp-nmar {
+	margin: 0px;
+}
+.pp-nmar .pp-gn a {
+	margin-right: 5px;
+	margin-left: 5px;
+}
+.pp-nmar .db {
+	font-weight: bold;
+	color: #fff;
+	background: url(../images/pinpai/sub-db.gif);
+	text-align: center;
+	display: block;
+	height: 20px;
+	width: 33px;
+	margin-right: auto;
+	margin-left: auto;
+	line-height: 20px;
+}
+
+
+.pp-main .p-right {
+	float: right;
+	width: 200px;
+}
+.pp-aoth {
+	margin: 10px 20px 20px;
+	width: 430px;
+	float: left;
+	display: inline;
+}
+.pp-aoth .pp-sjimg {
+	float: left;
+	margin-right: 10px;
+}
+.pp-aoth .pp-sjmsg {
+	float: left;
+	font-family: Arial;
+	line-height: 1.8;
+}
+.pp-main .pp-baojia {
+	float: left;
+	width: 750px;
+}
+.pp-baojia .pp-b1 {
+	width: 100%;
+	border: 1px solid #c1ced7;
+	margin-bottom: 10px;
+}
+.pp-baojia .pp-b1 th {
+	background: url(../images/pinpai/bg-wz.gif) repeat-x top;
+	line-height: 26px;
+	border-bottom: 1px solid #D3E7F3;
+}
+.pp-b1 td {
+	line-height: 25px;
+	text-align: center;
+}
+.pp-b1 .bj-cx {
+	background: #F3F3F3;
+}
+.pp-b1 .bj-cin em {
+	font-style: normal;
+	margin-right: 8px;
+}
+.pp-b1 .bj-cin a {
+	margin-left: 10px;
+}
+.pp-b1 .bj-cx img {
+	margin-top: 5px;
+	margin-bottom: 5px;
+	border: 1px solid #000;
+}
+.pp-b1 .bj-gn a {
+	display: inline;
+	float: right;
+	margin-right: 20px;
+	font-family: Arial;
+}
+.pp-b1 .bj-gn .db {
+	line-height: 20px;
+	font-weight: bold;
+	color: #fff;
+	text-align: center;
+	width: 33px;
+	background: url(../images/pinpai/sub-db.gif) no-repeat;
+}
+.pp-baojia .bj-cc .se-car-list {
+	margin-right: 15px;
+	margin-left: 15px;
+	display: inline;
+}
+.bj-cc .pp-ct {
+	float: right;
+	margin-right: 15px;
+}
+.bj-cc .pp-ct a {
+	font-weight: normal;
+	margin-right: 5px;
+	margin-left: 5px;
+}
+.bj-cc .pp-ct em {
+	color: #f00;
+	font-style: normal;
+}
+.bj-cc .pp-bti {
+	width: 600px;
+	margin: 10px auto;
+}
+.bj-cc .pp-bti td {
+	text-align: center;
+}
+.bj-cc .pp-bti input {
+	height: 20px;
+	width: 20px;
+	line-height: 20px;
+	text-align: center;
+}
+.bj-cc .pp-bti .sub img {
+	margin-left: 10px;
+	margin-bottom: -7px;
+	margin-top: 5px;
+}
+.bj-cc .show-bimg {
+	text-align: center;
+	margin-bottom: 10px;
+	line-height: 2;
+}
+.search-ABC  {
+	text-align: center;
+	line-height: 32px;
+}
+.search-ABC  a  {
+	font: bold 16px Georgia, "Times New Roman", Times, serif;
+	margin-right: 11px;
+	margin-left: 11px;
+}
+.search-ABC  em  {
+	font: bold normal 16px Georgia, "Times New Roman", Times, serif;
+	color: #999999;
+	margin-right: 11px;
+	margin-left: 11px;
+}
+.qc-k .pp-mnav {
+	float: right;
+	margin-top: -3px;
+}
+.qc-k .pp-mnav li {
+	float: left;
+}
+.pp-mnav a {
+	display: block;
+	padding-right: 11px;
+	padding-left: 11px;
+	line-height: 24px;
+	font-weight: normal;
+	color: #000;
+	margin-right: 2px;
+}
+.pp-mnav a:hover {
+	display: block;
+	padding-right: 10px;
+	padding-left: 10px;
+	line-height: 24px;
+	font-weight: normal;
+	background: url(../images/common/line-h3-bg2.gif) repeat-x;
+	border-top: 1px solid #b8cde0;
+	border-right: 1px solid #b8cde0;
+	border-left: 1px solid #b8cde0;
+}
+
+.pp-mnav .dq {
+	background: url(../images/common/line-h3-bg2.gif) repeat-x;
+	border-top: 1px solid #b8cde0;
+	border-right: 1px solid #b8cde0;
+	border-left: 1px solid #b8cde0;
+	font-weight: bold;
+}
+.pp-mnav .dq:hover {
+	padding-right: 11px;
+	padding-left: 11px;
+	background: url(../images/common/line-h3-bg2.gif) repeat-x;
+	border-top: 1px solid #b8cde0;
+	border-right: 1px solid #b8cde0;
+	border-left: 1px solid #b8cde0;
+	font-weight: bold;
+}
+.pp-slist {
+	background: url(../images/pinpai/sgk-bg.gif) repeat-x left top;
+	width: 100%;
+}
+.pp-slist li {
+	line-height: 30px;
+	width: 120px;
+	background: url(../images/common/ico-zhi.gif) no-repeat left;
+	padding-left: 10px;
+	float: left;
+	margin-left: 15px;
+}
+.b-title .En {
+	padding-top: 8px;
+	padding-left: 10px;
+	float: left;
+}
+.b-title .backtop {
+	float: right;
+	margin-top: 15px;
+	margin-right: 15px;
+	color: #000;
+	background: url(../images/pinpai/ico-backtop.gif) no-repeat left 0px;
+	padding-left: 17px;
+}
+.pp-slo {
+	margin: 10px auto;
+	width: 300px;
+}
+.pp-slo .pp-logo {
+	float: left;
+}
+.pp-slo .pp-logo img {
+	border: 1px solid #000;
+}
+.pp-slo .pp-int {
+	float: left;
+	width: 175px;
+	margin-left: 10px;
+	line-height: 1.6;
+}
+.pp-slo .pp-int a {
+	margin-right: 5px;
+}
+.pp-cview {
+	float: left;
+	width: 752px;
+}
+.pp-cview .car-msg .car-show {
+	background: #edf6fd;
+	border: 1px solid #c5ccd6;
+	width: 366px;
+	text-align: center;
+	padding-top: 8px;
+	padding-bottom: 8px;
+	float: left;
+}
+.pp-cview .car-msg .car-cs .pp-car-intro {
+	margin-left: 10px;
+	float: left;
+}
+.pp-car-intro td {
+	line-height: 29px;
+	text-indent: 10px;
+}
+.pp-car-intro .ls td {
+	background: #f3f8fc;
+}
+.pp-car-intro em {
+	font-style: normal;
+	color: #003366;
+}
+.cx-bj {
+	margin-top: 5px;
+}
+.cx-bj .cx-cp {
+	width: 113px;
+	border: 1px solid #cad5e4;
+	float: left;
+	margin-right: 10px;
+}
+.cx-bj .cx-cp th {
+	background: #f3f8fc;
+	line-height: 40px;
+	border-bottom: 1px solid #cad5e4;
+}
+.cx-bj .cx-cp td {
+	text-align: center;
+	font: bold 15px/35px "Times New Roman";
+	color: #f00;
+}
+.cx-bj .cx-mp {
+	float: right;
+	width: 620px;
+	border-top: 1px solid #cad5e4;
+	border-left: 1px solid #cad5e4;
+}
+.cx-bj .cx-mp td {
+	border-right: 1px solid #cad5e4;
+	border-bottom: 1px solid #cad5e4;
+	line-height: 24px;
+	text-align: center;
+	padding-right: 5px;
+	padding-left: 5px;
+}
+.cx-bj .cx-mp .bgcl {
+	font-weight: bold;
+	background: #f3f8fc;
+}
+.cx-bj .cx-mp .bgcl a {
+	line-height: 15px;
+}
+.cx-bj .cx-mp .cx-msub {
+	text-align: right;
+	padding-right: 10px;
+}
+.xgintro {
+	line-height: 1.5;
+	color: #666;
+	text-indent: 26px;
+	width: 95%;
+	margin-right: auto;
+	margin-left: auto;
+}
+.pp-baojia .qc-k .cx-jxbj {
+	width: 100%;
+}
+.cx-cxmsg li {
+	line-height: 20px;
+}
+.cx-cxtd td {
+	border-bottom: 1px solid #D3D9E0;
+	padding-top: 4px;
+	padding-bottom: 4px;
+}
+.gc {
+	height: 481px;
+	width: 100%;
+	margin-top: 5px;
+}
+.gc  .gc-left {
+	background: url(../images/pinpai/360-gc-left.jpg) no-repeat right;
+	float: left;
+	height: 481px;
+	width: 181px;
+	position: relative;
+}
+.gc .gc-left .gc-logo {
+	width: 60px;
+	margin-left: 60px;
+	background: url(../images/pinpai/gc-bglogo.jpg) no-repeat top;
+	padding-top: 55px;
+	text-align: center;
+}
+.gc .gc-left .gc-logo img {
+	border: 1px solid #787666;
+}
+.gc .gc-left .gc-nav {
+	text-align: center;
+}
+
+.gc  .gc-left  .gc-nav img {
+	margin-top: 20px;
+}
+
+.gc  .gc-right {
+	float: right;
+	height: 481px;
+	width: 779px;
+	background: url(../images/pinpai/360-gc-right.jpg);
+}
+.gc .gc-right h1 {
+	font: 25px/60px "黑体";
+	text-indent: 170px;
+}
+.gc .gc-right .gc-show {
+	height: 310px;
+	width: 470px;
+	margin-left: 50px;
+	text-align: center;
+	position: relative;
+	margin-top: 40px;
+}
+.gc .gc-right .gc-show .gc-showpp {
+	position: absolute;
+	width: 100%;
+	left: 0px;
+	top: 0px;
+}
+.gc .gc-right .gc-show .gc-show-sub {
+	position: absolute;
+	bottom: 5px;
+	z-index: 899;
+	width: 100%;
+	left: 0px;
+}
+.gc .gc-right .gc-show .gc-show-sub img {
+	margin-right: 30px;
+}
+.gc .gc-right .gc-msg {
+	margin-top: 40px;
+	text-align: right;
+}
+.gc .gc-right .gc-msg a {
+	color: #676650;
+	margin-right: 20px;
+}
+.pp_config {
+	width: 100%;
+}
+.pp_config td {
+	padding: 5px 5px 4px 6px;
+	background: #EAF0F7;
+	border-bottom: 1px solid #DDE7F2;
+	border-right: 1px solid #DDE7F2;
+}
+.pp_config td.config_title {
+	font-weight: bold;
+	color: #FFFFFF;
+	background: #5F8DC0;
+}
+.pp_config td.config_tk {
+	background: #F4F8FB;
+	text-align: right;
+	padding-right: 5px;
+	border-left: 1px solid #DDE7F2;
+}

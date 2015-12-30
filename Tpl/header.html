@@ -1,0 +1,142 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="Programer" content="Jiebin | Carol" />
+<meta name="author" content="馬路科技 | 台北 |  台南 | 網頁設計 | 網站設計 | 網頁製作 | Amber" />
+<title>TAIWAN SOCIETY OF CARDIOLOGY - ACS-DM Registry Case report form</title>
+<script src="css/jquery-latest.js"></script>
+<script src="css/jquery-ui-1.9.2.custom.js"></script>
+<script src="include/jscode/main.js"></script>
+<link href="css/jquery-ui-1.9.2.custom.css" rel="stylesheet" />
+<link href="css/base.css" rel="stylesheet" type="text/css" />
+<link href="css/page.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript">
+<!--
+$(document).ready(function(){
+	$(".datePicker" ).datepicker({
+		changeMonth: true,
+		dateFormat: 'yy-mm-dd',
+		// yearRange: '1940:<?php echo date("Y");?>',
+		changeYear: true,
+		showOn: "both",
+	}).next(".ui-datepicker-trigger").addClass("calBtn");
+<?//if (!$ModifyPermission || ($_GET["action"]=="add_new_patient" && $Penroll)) {?>	
+<?if (!$ModifyPermission) {?>	
+	// 限制變更
+	$('#form1 .datePicker').datepicker('destroy');
+	$('#form1 :text').prop('readonly', true);
+	// $('#form1 input:not([type="text"],[type="hidden"])').prop('disabled',true);
+	$('#form1 :checkbox').click(function(){return false;});
+	$('#form1 :radio').prop("disabled", true);
+	$('#form1 select :selected').each(function(){$(this).parent().data("default", this);});
+	$('#form1 select').change(function(e) {$($(this).data("default")).prop("selected", true);});
+	
+	// $('#form1 input[type=text]').prop('disabled', true);
+	// $('#form1 select,#form1 input[type=radio],#form1 input[type=checkbox]').prop("disabled", true);;
+	// 例外
+	// $("input[name=heart_rate]").prop('readonly', false);
+	// $('input[name=heart_rate]').removeAttr("readonly");
+<?}?>
+})
+//-->
+</script>
+<style>
+
+</style>
+</head>
+<?php 
+switch ($action){
+	case 'add_new_patient':
+		//$body='AddNewPatient';
+	      $body='page';
+		break;
+	case 'case_list':
+		$body='CaseList';
+		break;
+	case 'schedule_overview':
+		$body='ScheduleOverview';
+		break;
+	case 'patient_1':
+		$body='page';
+		break;
+	case 'patient_2':
+		$body='page';
+		break;
+	case 'patient_3':
+		$body='page';
+		break;
+	case 'patient_4':
+		$body='page';
+		break;
+	case 'patient_5':
+		$body='page';
+		break;
+	case 'patient_6':
+		$body='page';
+		break;
+	case 'patient_7':
+		$body='page';
+		break;
+	case 'patient_8':
+		$body='page';
+		break;
+	case 'patient_9':
+		$body='page';
+		break;
+  case 'patient_10':
+		$body='page';
+		break;
+  case 'patient_11':
+		$body='page';
+		break;
+  case 'patient_12':
+		$body='page';
+		break;
+  case 'patient_13':
+		$body='page';
+		break;
+  case 'patient_14':
+		$body='page';
+		break;
+  case 'patient_15':
+		$body='page';
+		break;
+	case 'track_1':
+		$body='FollowUpDischarge';
+		break;
+	case 'track_2':
+		$body='MonthFollowUp';
+		break;
+	case 'track_3':
+		$body='YearFollowUp';
+		break;
+	case 'track_4':
+		$body='YearFollowUp_2';
+		break;
+	case 'track_5':
+		$body='EndRegistryForm';
+		break;
+}
+?>
+<body id="<?php echo $body;?>">
+<div class="body_bg">
+  <div class="container">
+    <div class="header">
+      <div class="logo">
+        <h1><a href="index.php">ACS-DM Registry Case report form</a></h1>
+      </div>
+      <div class="loginDataBox">
+        <ul>
+          <li class="no_01">User Name:<span><?php echo $customerInfo['name']?></span></li>
+          <li class="no_02">Site No:<span><?php echo $customerInfo['site_no'];?></span></li>
+          <li class="no_03"><a class="logOutBtn" href="?action=logout">Logout</a></li>
+          <?php if ($customerInfo['group_id']==3) {?>
+          <?php if ($action!="case_list") {?><li class="no_04"><a class="patientListBtn" href="index.php?action=case_list<?=($_SESSION['p']>1?"&p=".$_SESSION['p']:"");?>">patient List</a></li><?php }?>
+		  <?php if ($action!="schedule_overview") {?><li class="no_05"><a class="ScheduleOverviewBtn" href="index.php?action=schedule_overview">Schedule Overview</a></li><?php }?>
+		  <?php } else {?>
+          <?php if ($action!="case_list") {?><li class="no_04"><a class="patientListBtn" href="javascript:;">patient List</a></li><?php }?>
+		  <?php }?>
+        </ul>
+      </div>
+    </div>

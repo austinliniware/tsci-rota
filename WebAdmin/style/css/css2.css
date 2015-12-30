@@ -1,0 +1,87 @@
+@charset "utf-8";
+/*AWEN RESET */
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, font, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	outline: 0;
+	font-size: 100%;
+	font-weight:normal;
+	background: transparent;
+}
+address, caption, cite, code, dfn, em, strong, th, var { font-style:normal;	font-weight:normal;}
+caption, th { text-align:left;}
+.CLEAR{ clear:both; font-size:1px; height:0; line-height:0;}
+a{ text-decoration:none; cursor:pointer;}
+input{ cursor:pointer;}
+object{display:block;margin:0 auto;}
+ol,ul,li{ list-style:none;}
+body { line-height: 1;}
+blockquote, q {	quotes: none;}
+blockquote:before, blockquote:after,
+q:before, q:after {	content: ''; content: none;}
+:focus {outline: 0;}
+ins {text-decoration: none;}
+del {text-decoration: line-through;}
+table {	border-collapse: collapse;	border-spacing: 0;}
+/*AWEN RESET */
+
+
+/*Global reset */
+html{ display:block; width:100%; height:100%; background: #e7e7e7 url(../images/mbg.jpg) top left no-repeat; height:100%; }
+body{font-family:Arial,"新細明體"; font-size:12px; line-height:20px; background:url(../images/mbg02.jpg) right bottom no-repeat; height:100%;}
+.logobox{ height:73px; background:url(../images/mantop_02.png) left top no-repeat;}
+.logobox span{ float:right; margin-right:35px;}
+.topbut01{ width:61px; height:21px; background:url(../images/mantop_05.jpg) no-repeat; margin-right:20px; border:none; margin-top:26px;}
+.topbut02{ width:81px; height:21px; background:url(../images/mantop_07.jpg) no-repeat; border:none; margin-top:26px;}
+.centerbox{ margin-left:25px; margin-right:30px;}
+.leftbox{ width:190px; margin-left:10px; background:url(../images/_07.jpg) repeat-y; padding-bottom:}
+
+#leftmenubox{ width:150px; margin:0px auto; padding-top:20px;}
+#leftmenubox a {color:#336633;}
+
+.content {
+	width: 97.2%;
+}
+
+.titleajian a{ background:url(../images/menu_-.gif) no-repeat left center; padding-left:15px; display:block; color:#336633;}
+.titlea a{ background:url(../images/an_11.gif) no-repeat left center; padding-left:15px; display:block; color:#336633;}
+.titleajia a{ background:url(../images/menu_+.gif) no-repeat left center; padding-left:15px; display:block; color:#336633;}
+
+.titlea a:hover,.titleajia a:hover,.titleajian a:hover{ color:#ff6600;}
+
+.childa div{ height:10px;}
+.childa a{ display:block; background:url(../images/menu_06.gif) left center no-repeat; padding-left:25px; color:#339933; line-height:18px;}
+.childa a:hover{ color:#ff6600;}
+
+.rightbox{ padding-left:10px;}
+
+.rightmainbox{ border:solid 1px; border-top-color:#416739; border-right-color:#d1d1d1; border-bottom-color:#d1d1d1; border-left-color:#95a891; background-color:#FFF;}
+.rbgtc01{ background:url(../images/rbgtc_06.jpg) top repeat-x;}
+.rbgtc02{ background:url(../images/rgb.png) left repeat-y;}
+.titlebox{ font-size:20px; font-family:Arial, Helvetica, sans-serif,"黑体"; background:url(../images/wan_14.png) left center no-repeat; height:30px; line-height:30px; padding-left:13px; color:#c4c4c4; border-bottom:dotted 1px #c3c3c3; font-weight:bold;}
+.mag001{ margin:0px 25px;}
+
+.button001 a{ display:block; width:94px; height:27px; background:url(../images/wan_26.jpg) no-repeat; text-align:center; line-height:27px; color:#417336;}
+.button001 a:hover{ color:#f3630c;}
+.tabletitle{ background:url(../images/wan_32.jpg) top repeat-x; height:38px;}
+.tabletitle td{ text-align:center;  font-size:13px; color:#417336; line-height:25px;}
+.tablecontent{ background-color:#e8f1ea;}
+.tablecontent td{ text-align:center; padding:8px 0px;}
+.tablecontent td a{ color:#000;}
+.tablecontent td a:hover{color:#F00;}
+.tablecontent td input{ text-align:center;}
+.bgcolor{ background-color:#f4f8f5;}
+.pagesbox{ float:right; margin-top:20px; margin-right:15px;}
+.pagesbox li{ float:left;}
+.pagesa{ height:23px; background:url(../images/wan_45.jpg) repeat-x;}
+.pagesa a{ margin:0px 8px; line-height:22px; font-size:12px; color:#417336;}
+.pagesa a:hover{ color:#F00;}

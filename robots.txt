@@ -1,0 +1,9 @@
+User-agent: *
+Disallow: /WebAdmin/
+Disallow: /comm/
+Disallow: /conf/
+Disallow: /include/
+Disallow: /ckeditor/
+Disallow: /*.css$
+Disallow: /*.js$
+Sitemap: /sitemap.xml

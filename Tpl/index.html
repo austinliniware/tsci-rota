@@ -1,0 +1,124 @@
+<?php 
+if(!defined('ROOT_PATH'))return;
+// $msg=array();
+$data=array();
+$defaultEmail='';
+if(isset($_POST['email'])){
+	$_POST['email']=$_POST['email']==$defaultEmail?'':$_POST['email'];
+	$data['email']=$_POST['email'];
+}elseif(isset($_COOKIE['userInfo'])){
+	$coInfo=explode(",", $_COOKIE['userInfo']);
+	$data['email']=$coInfo[0];
+}else{
+	$data['email']='';
+}
+if(isset($_POST['password'])){
+	$data['password']=$_POST['password'];
+}elseif(isset($_COOKIE['userInfo'])){
+	$coInfo=explode(",", $_COOKIE['userInfo']);
+	$data['password']=$coInfo[1];
+}else{
+	$data['password']='';
+}
+if(isset($_POST['remember'])){
+	$data['remember']=$_POST['remember'];
+}else if(isset($_COOKIE['userInfo'])){
+	$data['remember']=1;
+}else{
+	$data['remember']=0;
+}
+if($_POST){
+	if(!empty($_POST['email']) && !empty($_POST['password'])){
+		$class= new registration();
+		$status=$class->login($_POST['email'],$_POST['password']);
+		if($status=='1'){
+			if($_POST['email'] && $_POST['password']){
+				if($_POST['remember']==1){
+					setcookie("userInfo",($_POST['email'].','.$_POST['password']),time()+3600*24*30);
+				}
+			}else{
+				setcookie("userInfo",'',time()-100);
+			}
+			redirect("index.php?action=case_list");
+		}else{
+			$msg="帳號或密碼不正確！請重新確認";
+		}
+	}else{
+		$msg="帳號或密碼不正確！請重新確認";
+	}
+}
+if(isset($_SESSION['customer_id'])){
+	if($_SESSION['customer_id']!=0){
+		redirect("index.php?action=case_list");
+	}
+}
+?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="Programer" content="Jiebin | Carol" />
+<meta name="author" content="馬路科技 | 台北 |  台南 | 網頁設計 | 網站設計 | 網頁製作 | Amber" />
+<title>TAIWAN SOCIETY OF CARDIOLOGY - ACS-DM Registry Case report form</title>
+<link href="css/base.css" rel="stylesheet" type="text/css" />
+<link href="css/index.css" rel="stylesheet" type="text/css" />
+<script>
+// if (navigator.appName=="Microsoft Internet Explorer") {
+// if (confirm('建議使用Chrome瀏覽器觀看網站.\n\n要下載Chrome瀏覽器嗎?\n(請解除快顯封鎖功能)')) window.open('http://www.google.com.tw/intl/zh-TW/chrome/browser/','Chrome');
+// }
+</script>
+</head>
+<body id="Index">
+<div class="container">
+ <div class="bannerImgBox_I"><img src="images/index_img.png" /></div>
+  <div class="mainPage">
+   <div class="logo">
+      <h1><a href="index.html">TAIWAN SOCIETY OF CARDIOLOGY TSCI-TSCI Rota CRF Case report from</a></h1>
+    </div>
+    <form name="form1" method="post" action="" id="form1">
+    <div class="loginFormBox">
+      <div class="formBox">
+        <div class="formSection no_01">
+          <div class="formLabel">User Name</div>
+          <div class="formValue">
+            <input type="text" name="email" value="<?php echo $data['email']?>" id="email" />
+          </div>
+          <div class="clearfloat"></div>
+        </div>
+        <div class="formSection no_02">
+          <div class="formLabel">Password</div>
+          <div class="formValue">
+            <input type="password" name="password" value="<?php echo $data['password']?>" id="passw" />
+          </div>
+          <div class="clearfloat"></div>
+        </div>
+        <div class="formSection no_03">
+          <div class="formLabel">Site No</div>
+          <div class="formValue">
+            123 <?=$msg;?>
+          </div>
+          <div class="clearfloat"></div>
+        </div>
+      </div>
+      <p class="">Forgot your password? <br />
+        Contact your system administrator.</p>
+        <a href="form1.html">
+      <div class="baseBtn">
+      	
+        <input class="logInBtn" type="submit" name="button" id="button" value="" />
+        
+      </div>
+      </a>
+      <div class="clearfloat"></div>
+    </div>
+    </form>
+  </div>
+  
+  <div class="footerBox">
+    <address>© 2015  Copyright  Taiwan Society of Cardiovascular Interventions
+    </address>
+    <div class="iware">Designed by: iware <a title="網頁設計公司:馬路科技" target="_blank" href="http://www.iware.com.tw/"><b>網頁設計</b></a></div>
+  </div>
+</div>
+</body>
+</html>

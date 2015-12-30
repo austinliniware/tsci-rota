@@ -1,0 +1,94 @@
+@CHARSET "utf-8";
+td {
+	font-size: 12px;
+	border-bottom: 1px solid #999;
+	padding: 6px;
+	line-height: 150%;
+}
+ul {
+	list-style-image: url(../images/ulicon.gif);
+}
+li {
+	padding-left: 8px;
+}
+.l22 {
+	padding-left: 22px;
+}
+.none {
+	font-size: 12px;
+	border-bottom: 0;
+	padding: 2px;
+	line-height: 150%;
+}
+.on {
+	font-weight: bold;
+	color: red;
+}
+.off {
+	color: blue;
+}
+.value {
+	font-size: 12px;
+	border-bottom: 1px solid #999;
+	padding: 5px 0;
+	line-height: 150%;
+}
+.title {
+	font-size: 12px;
+	background-color: #f5f5f5;
+	border-bottom: 1px solid #999;
+	padding: 3px 10px;
+	line-height: 150%;
+}
+.list {
+	background-color: #FFF;	
+}
+input {
+	border: 1px solid #999;
+	height: 18px;
+	font-size: 10px;
+}
+.mr7 {
+	margin-top: 7px;
+}
+.s_bd {
+	filter: alpha(opacity = 95);
+	position: absolute;
+	border: 1px solid #666666;
+	background: #FFF;
+	padding: 5px;
+	font-size: 12px;
+	z-index: 10000;
+	line-height: 150%
+}
+body {
+	padding-bottom: 150px;
+}
+.tip {
+	font-size: 12px;
+	border-bottom: 0;
+	padding: 3px;
+	line-height: 150%;
+	color: #FF8000
+}
+.file {
+	font-size: 12px;
+	border-bottom: 0;
+	padding: 3px;
+	line-height: 150%;
+}
+.redbold {
+	 color: red;
+	 font-weight: bold;"
+}
+/* JQuery多選下拉框的样式 */
+.select_div {font-size:12px;font-family:Verdana;border:1px solid #333;overflow-y: auto;}
+.select_div table{border:0px;table-layout:fixed}
+.select_div .select_div_title{padding:5px;background:#000;color:#fff;font-weight:bold;font-size:14px;white-space:nowrap;height:20px}
+.select_div tr{font-weight:bold;color:#000;height:24px}
+.select_div .odd{background:#f77}
+.select_div .even{background:#fff}
+.select_div .selected{background:#D9E9FE}
+.select_div td{padding-left:5px;white-space:nowrap;}
+.select_div .right_td{text-align:right;width:20px;padding:5px}
+.select_div .select_div_bottom{background:#ddd;padding:8px;text-align:right}

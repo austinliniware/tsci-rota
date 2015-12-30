@@ -1,0 +1,146 @@
+<?php 
+if(!defined('ROOT_PATH'))return;
+require_once(ROOT_PATH.'Tpl/header.html');
+
+if ($customerInfo['group_id']!=3) include "permission_error.html";
+else {
+$class=new hospital();
+$class->p=$_GET['p'];
+$class->wheres = 'is_show=1';
+$class->orders = 'site_no';
+$class->pageReNum=10;
+$list=$class->getList();
+?>
+<div class="mainPage">
+      <div class="mainPage_bg">
+        <div class="mainContent">
+          <div class="pageBox">
+            <h2 class="titleStyle_01"><span>Schedule Overview</span></h2>
+            <div class="tableStyleBox_01">
+              <table border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                  <th width="90" align="center" valign="middle">SiteNO.</th>
+                  <th width="135" align="center" valign="middle">Enroll</th>
+                  <th width="55" align="center" valign="middle">Failure</th>
+                  <th width="90" align="center" valign="middle">Total</th>
+                  <th width="58" align="center" valign="middle">Visit 1</th>
+                  <th width="56" align="center" valign="middle">%</th>
+                  <th width="58" align="center" valign="middle">Visit 2</th>
+                  <th width="56" align="center" valign="middle">%</th>
+                  <th width="58" align="center" valign="middle">Visit 3</th>
+                  <th width="56" align="center" valign="middle">%</th>
+                  <th width="58" align="center" valign="middle">Visit 4</th>
+                  <th width="56" align="center" valign="middle">%</th>
+                  <th width="58" align="center" valign="middle">Visit5</th>
+                  <th width="56" align="center" valign="middle">%</th>
+                </tr>
+                <?php 
+				foreach ($list as $key=>$rs){
+				$total=$enroll=$fail=$v1=$v2=$v3=$v4=$v5=0;
+				if (($key+1)%2==0) $style=' class="tdBgColor"'; else $style='';
+				?>
+                <tr <?php echo $style;?>>
+                  <td align="center" valign="middle"><a href="index.php?action=case_list&siteno=<?php echo $rs['site_no'];?>"><?php echo $rs['site_no'];?></a></td>
+                  <?
+				  $plist=$webdb->getList("select * from _web_patient where hospital_id='".$rs["id"]."'");
+				  foreach ($plist as $val){
+				  $vs=0;
+				  if ($val['ACS_24']==1&&$val['2dm']==1&&$val['20years']==1&&$val['consent_given']==1&&$val['ACS_comorbidity']==0&&$val['study']==0) $enroll++;
+				  else $fail++;
+				  $status=explode(",",$val['finish_status']);
+				  for ($i=0;$i<14;$i++) {
+					  if ($i==9 && $status[$i]==1) $v2++;
+					  elseif ($i==10 && $status[$i]==1) $v3++;
+					  elseif ($i==11 && $status[$i]==1) $v4++;
+					  elseif ($i==12 && $status[$i]==1) $v5++;
+					  else {
+					  if ($status[$i]==1) $vs++;
+					  }
+				  }
+				  if ($vs==9) $v1++;
+				  }
+				  $total=$enroll+$fail;
+				  ?>
+                  <td align="center" valign="middle"><?php echo $total;?></td>
+                  <td align="center" valign="middle"><?php echo $fail;?></td>
+                  <td align="center" valign="middle"><?php echo $enroll;?></td>
+                  <td align="center" valign="middle"><?php echo $v1;?></td>
+                  <td align="center" valign="middle"><?php echo $v1>0?number_format(($v1/$total)*100,2):0;?>%</td>
+                  <td align="center" valign="middle"><?php echo $v2;?></td>
+                  <td align="center" valign="middle"><?php echo $v2>0?number_format(($v2/$total)*100,2):0;?>%</td>
+                  <td align="center" valign="middle"><?php echo $v3;?></td>
+                  <td align="center" valign="middle"><?php echo $v3>0?number_format(($v3/$total)*100,2):0;?>%</td>
+                  <td align="center" valign="middle"><?php echo $v4;?></td>
+                  <td align="center" valign="middle"><?php echo $v4>0?number_format(($v4/$total)*100,2):0;?>%</td>
+                  <td align="center" valign="middle"><?php echo $v5;?></td>
+                  <td align="center" valign="middle"><?php echo $v5>0?number_format(($v5/$total)*100,2):0;?>%</td>
+                </tr>
+               <?php }?>
+              </table>
+            </div>
+          </div>
+          <div class="pagingBox" style="padding-top: 5px;">
+            <?
+$sql="
+SELECT count(*) as total,
+sum(IF(P.ACS_24=1&&P.2dm=1&P.20years=1&&P.consent_given=1&&P.ACS_comorbidity=0&&P.study=0,1,0)) AS enroll,
+sum(IF(P.ACS_24=1&&P.2dm=1&P.20years=1&&P.consent_given=1&&P.ACS_comorbidity=0&&P.study=0,0,1)) AS fail
+FROM _web_patient AS P";
+$analysis=$webdb->getValue($sql);
+			?>
+			<div class="pagingDataBox">總計 Total NO<b><?=$analysis['total'];?></b>/ Fail NO<b><?=$analysis['fail'];?></b>/ Enroll NO<b><?=$analysis['enroll'];?></b> (成功收案百分比<b><?=number_format(($analysis['enroll']/$analysis['total'])*100,2);?></b>%)</div>
+            <?php echo $class->getProductPageInfoHTML(5);?>
+          </div>
+        </div>
+      </div>
+    </div>
+<div id="dialog-form" title="圖表" style="display:none;">
+<img src='include/jpgraph_line.php'>
+</div>
+<script type="text/javascript">
+	$(document).ready(function(){
+		$("#dialog-form").dialog({
+		//bgiframe: true,
+		autoOpen: false,
+		width: 850,
+		height: 680,
+		modal: true,
+		// title: "",
+		buttons: {
+			'關閉': function() {
+				$(this).dialog('close');
+			}
+		},
+		close: function() {
+			// allFields.val('').removeClass('ui-state-error');
+		}
+	});
+	$("#openPng").click(function(){
+		$("#dialog-form").dialog( "open" );
+	});
+	
+	//init;
+	//$('table').removeCol(2);
+	//$('table').removeCol(3);
+	}); /*畫面上所有的DOM都載入後*/
+	//function init() {
+		/*註冊removeCol函數*/
+		$.fn.removeCol = function (col) {
+			// Make sure col has value    
+			if (!col) { col = 1; }
+			$('tr td:nth-child(' + col + '), tr th:nth-child(' + col + ')', this).hide();/*該欄隱藏*/
+			return this;
+		};
+		/*註冊addCol函數*/
+		$.fn.addCol = function (col) {
+			// Make sure col has value    
+			if (!col) { col = 1; }
+			$('tr td:nth-child(' + col + '), tr th:nth-child(' + col + ')', this).show();/*該欄顯示*/
+			return this;
+		};
+	//}
+</script>
+<?php
+}
+require_once(ROOT_PATH.'Tpl/footer.html');
+?>

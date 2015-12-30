@@ -1,0 +1,21 @@
+<?php 
+if(!isset($_SESSION['patient_id'])){
+	redirect("index.php?action=case_list".($_SESSION['p']>1?"&p=".$_SESSION['p']:""));
+}
+?>
+<div class="patientDataBox">
+	<b>Patient information</b>
+	<ul>
+		<li class="no_01"><label>Patient NO.:</label> <span><?php echo $patientInfo['id']?></span>
+		</li>
+		<li class="no_02"><label>Patient initials:</label> <span><?php echo $patientInfo['initials'];?></span>
+		</li>
+		<li class="no_03"><label>Birthday:</label> <span><?php echo $patientInfo['birthday'];?></span>
+		</li>
+		<li class="no_04"><label>Age:</label> <span><?php echo $patientInfo['birthday']?(date("Y")-date("Y",strtotime($patientInfo['birthday']))):'';?></span>
+		</li>
+		<li class="no_05"><label>Sex:</label> <span><?php echo $patientInfo['gender'];?></span>
+		</li>
+	</ul>
+	<div class="clearfloat"></div>
+</div>

@@ -1,0 +1,460 @@
+<?php 
+if(!defined('ROOT_PATH'))return;
+$actionkey=0;
+if($_POST){
+	if ($ModifyPermission) {
+  include_once "baseinfo.php";
+	$post=array();
+	$post['phospital_id']=check_input($_POST['phospital_id']);
+  $post['study_id']=check_input($_POST['study_id']);
+  $post['birthday']=(trim($_POST['birthday'])!=""?date("Y-m-d",strtotime($_POST['birthday'])):"");
+  $post['pciday']=(trim($_POST['pciday'])!=""?date("Y-m-d",strtotime($_POST['pciday'])):"");
+  $post['sex']=check_input($_POST['sex']);
+  $post['nyha']=check_input($_POST['nyha']);
+  $post['p_lvef']=check_input($_POST['p_lvef']);
+  $post['ventriculogram']=check_input($_POST['ventriculogram']);
+  $post['bpci_hgb']=check_input($_POST['bpci_hgb']);
+  $post['bpci_tchol']=check_input($_POST['bpci_tchol']);
+  $post['bpci_alb']=check_input($_POST['bpci_alb']);
+  $post['bpci_tg']=check_input($_POST['bpci_tg']);
+  $post['bpci_ua']=check_input($_POST['bpci_ua']);
+  $post['bpci_hdl']=check_input($_POST['bpci_hdl']);
+  $post['bpci_tbil']=check_input($_POST['bpci_tbil']);
+  $post['bpci_ldl']=check_input($_POST['bpci_ldl']);
+ 
+  
+   //checkbox
+   $post['hospital_id']=(is_array($_POST['hospital_id'])?check_input(implode(",", $_POST['hospital_id'])):"");
+   $post['a_diagnosis']=(is_array($_POST['a_diagnosis'])?check_input(implode(",", $_POST['a_diagnosis'])):"");
+   $post['medical_history']=(is_array($_POST['medical_history'])?check_input(implode(",", $_POST['medical_history'])):""); 
+   $post['pre_medications']=(is_array($_POST['pre_medications'])?check_input(implode(",", $_POST['pre_medications'])):"");
+   $post['ecg']=(is_array($_POST['ecg'])?check_input(implode(",", $_POST['ecg'])):"");
+   
+    
+  
+  
+	//$post['ethnicity']=check_input($_POST['ethnicity']=='Others'?$_POST['ethnicity_others']:$_POST['ethnicity']);
+	//$post['modify_date']=Date('Y-m-d H:i:s');
+	$post['userid']=$_SESSION['customer_id'];
+	//$status=explode(",",$patientInfo['finish_status']);
+	//$status[$actionkey]=$_POST['finish'];
+	//$post['finish_status']=join(",",$status);
+	$class=new patient_source();
+  if(isset($_POST['id'])){
+		$class->edit($post, $_POST['id']);
+	}else{
+		$post['patient_id']=$_SESSION['patient_id'];
+		$post['user_id']=$_SESSION['customer_id'];
+    
+		$id=$class->add($post);
+	}
+  // print_r($post);
+  
+  
+  
+//	$class->edit($post, $_SESSION['patient_id']);
+	}
+	if ($_POST['do']=="next") redirect("index.php?action=patient_2");
+	else redirect("index.php?action=case_list".($_SESSION['p']>1?"&p=".$_SESSION['p']:""));
+	exit;
+}
+
+
+$data=array();
+$specialData['multi']  = array("a_diagnosis","medical_history","pre_medications","ecg","gender");
+if($_SESSION['patient_id']){
+	$patientClass=new patient_source();
+	$patient_source=$patientClass->getpatient_source((int)$_SESSION['patient_id']);
+	$data=getProcessedData($patientClass,$patient_source,$specialData);
+  //print_r($data);
+}
+
+
+require_once(ROOT_PATH.'Tpl/header.html');
+
+if ($noPermission) include "permission_error.html";
+else {
+?>
+<form id="form1" name="form1" method="post" action="" >
+<?echo $patient_source['id'];?>
+<input type="hidden" name="do" value="next" />
+<input type="hidden" name="finish" value="0" />
+
+<?if ($patient_source['id']>0) {?><input type="hidden" name="id" value="<?=$patient_source['id']?>" /><?}?>
+<div class="mainPage_bg">
+        <div class="mainContent">
+          <div class="pageBox">
+            <div class="formSetBox">
+              <h2 class="titleStyle_01"><span>Patient source:</span></h2>
+              <div class="formBox patient_sourceBox">
+                <div class="formSection no_01">
+                  <div class="formLabel">Hospital ID: </div>
+                  <div class="formValue">
+                    <?
+                    //$hclass=new hospital();
+                    //$hclass->setWhere("is_show=1");
+                    //$hclass->orders="id asc";
+                    //$hlists=$hclass->getList();
+                    $hlists=getList("_web_hospital","is_show=1 order by id asc");
+                    //print_r($hlist);
+                    foreach($hlists as $val=> $hlist)
+                    {
+                    ?>
+                      <label class="no_0<?=$val+1?>">
+                      <input type="checkbox" id="hospital_id" name="hospital_id[]" value="<?=$hlist["site_no"]?>"
+                      <span><?=$hlist["name"]?></span></label>
+                      <?}?>
+                    
+                  </div>
+                  <div class="clearfloat"></div>
+                </div>
+                <!---->
+                <div class="formSection no_02">
+                  <div class="formLabel">Individual Hospital ID:</div>
+                  <div class="formValue">
+                    <label class="no_01">
+                      <input type="text" name="phospital_id" id="phospital_id" value="<?php echo $data['phospital_id'];?>">
+                    </label>
+                  </div>
+                  <div class="clearfloat"></div>
+                </div>
+                <!----> 
+              </div>
+              <h2 class="titleStyle_01"><span>General data of the patients</span></h2>
+              <div class="formBox general_dataBox">
+                <div class="formSection no_01">
+                  <div class="formLabel">Basic Data: </div>
+                  <div class="formValue formMedium" style="display:inline-block;">
+                    <label class="no_01"> <span>Study ID:</span>
+                    <?
+                    if($data['study_id'] =="")
+                    {
+                    $study_id = date("YmdHis",time()+60*60*24).mt_rand(1000,9999);
+                    }else
+                    {
+                    $study_id=$data['study_id'];
+                    }
+                    ?>
+                      <input type="text" name="study_id" id="study_id" value="<?=$study_id?>">
+                      
+                      (電腦自動產生) </label>
+                    <label class="no_02">
+                    <span>PCI date:</span>
+                    <input type="text" name="pciday" id="pciday" class="datePicker" value="<?php echo $data['pciday']['date']?>">
+                    
+                    (yyyy-mm-dd)
+                    </label>
+                    <br>
+                    <label class="no_03">
+                    <span>出生日：</span>
+                    <input type="text" name="birthday" id="birthday" class="datePicker" value="<?php echo $data['birthday']['date']?>">
+                    (yyyy-mm-dd)
+                    </label>
+                    <label class="no_04"> <span>Sex:</span>
+                      <input type="radio" name="sex" id="sex1" value="M">
+                      M
+                      <input type="radio" name="sex" id="sex2" value="F">
+                      F </label>
+                     <label class="no_05">
+                    術前診斷：    
+                      <input type="checkbox" id="a_diagnosis" name="a_diagnosis[]" value="stable angina" <?php echo in_array($a_diagnosis[1],$data['a_diagnosis'])?"checked":""?>>
+                      <span>stable angina</span>
+                      <input type="checkbox" id="a_diagnosis" name="a_diagnosis[]" value="unstable angina" <?php echo in_array($a_diagnosis[2],$data['a_diagnosis'])?"checked":""?>>
+                      <span>unstable angina</span>
+                      <input type="checkbox" id="a_diagnosis" name="a_diagnosis[]" value="NSTEMI" <?php echo in_array($a_diagnosis[3],$data['a_diagnosis'])?"checked":""?>>
+                      <span>NSTEMI</span>
+                      <input type="checkbox" id="a_diagnosis" name="a_diagnosis[]" value="STEMI" <?php echo in_array($a_diagnosis[4],$data['a_diagnosis'])?"checked":""?>>
+                      <span>STEMI</span>
+                       </label>
+                  </div>
+                  <div class="clearfloat"></div>
+                </div>
+                <!---->
+                <div class="formSection no_02">
+                  <div class="formLabel">Medical history:</div>
+                  <div class="formValue formMedium">
+                    <label class="no_01">
+                      <input type="checkbox" id="medical_history1" name="medical_history[]" value="Hypertension" <?php echo in_array($medical_history[1],$data['medical_history'])?"checked":""?>>
+                      <span>Hypertension</span> </label>
+                    <label class="no_02">
+                      <input type="checkbox" id="medical_history2" name="medical_history[]" value="DM" <?php echo in_array($medical_history[2],$data['medical_history'])?"checked":""?>>
+                      <span>DM</span> </label>
+                    <label class="no_03">
+                      <input type="checkbox" id="medical_history3" name="medical_history[]" value="current smoker" <?php echo in_array($medical_history[3],$data['medical_history'])?"checked":""?>>
+                      <span>current smoker</span> </label>
+                    <label class="no_04">
+                      <input type="checkbox" id="medical_history4" name="medical_history[]" value="Ex-smoker" <?php echo in_array($medical_history[4],$data['medical_history'])?"checked":""?>>
+                      <span>Ex-smoker</span> </label>
+                    <label class="no_05">
+                      <input type="checkbox" id="medical_history5" name="medical_history[]" value="CAD" <?php echo in_array($medical_history[5],$data['medical_history'])?"checked":""?>>
+                      <span>CAD</span> </label>
+                    <label class="no_06">
+                      <input type="checkbox" id="medical_history6" name="medical_history[]" value="previous MI" <?php echo in_array($medical_history[6],$data['medical_history'])?"checked":""?>>
+                      <span>previous MI</span> </label>
+                    <br>
+                    <label class="no_07">
+                      <input type="checkbox" id="medical_history7" name="medical_history[]" value="previous PCI" <?php echo in_array($medical_history[7],$data['medical_history'])?"checked":""?>>
+                      <span>previous PCI</span> </label>
+                    <label class="no_08">
+                      <input type="checkbox" id="medical_history8" name="medical_history[]" value="previous CABG" <?php echo in_array($medical_history[8],$data['medical_history'])?"checked":""?>>
+                      <span>previous CABG</span> </label>
+                    <br>
+                    <label class="no_09">
+                      <input type="checkbox" id="medical_history9" name="medical_history[]" value="PAOD" <?php echo in_array($medical_history[9],$data['medical_history'])?"checked":""?>>
+                      <span>PAOD</span> </label>
+                    <label class="no_10">
+                      <input type="checkbox" id="medical_history10" name="medical_history[]" value="COPD" <?php echo in_array($medical_history[10],$data['medical_history'])?"checked":""?>>
+                      <span>COPD</span> </label>
+                    <br>
+                    <label class="no_11">
+                      <input type="checkbox" id="medical_history11" name="medical_history[]" value="chronic heart failure" <?php echo in_array($medical_history[11],$data['medical_history'])?"checked":""?>>
+                      <span>chronic heart failure</span> </label>
+                    <label class="no_12"> NYHA=
+                     <input type="text" name="nyha" id="nyha" value="<?php echo $data['nyha']?>">
+                      (1-4)</label>
+                    <br>
+                    <label class="no_13">
+                      <input type="checkbox" id="medical_history12" name="medical_history[]" value="old CVA" <?php echo in_array($medical_history[12],$data['medical_history'])?"checked":""?>>
+                      <span>old CVA</span> </label>
+                    <label class="no_14">
+                      <input type="checkbox" id="medical_history13" name="medical_history[]" value="洗腎" <?php echo in_array($medical_history[13],$data['medical_history'])?"checked":""?>>
+                      <span>洗腎</span> </label>
+                    <label class="no_15" style="width:100%;"> Pre-procedure LVEF
+                      <input type="text" name="p_lvef" id="p_lvef" value="<?php echo $data['p_lvef']?>">
+                      % by Echo
+                      <input type="text" name="ventriculogram" id="ventriculogram" value="<?php echo $data['ventriculogram']?>">
+                      % by left ventriculogram</label>
+                  </div>
+                  <div class="clearfloat"></div>
+                </div>
+                <!---->
+                <div class="formSection no_03">
+                  <div class="formLabel">Pre-procedure Medications:</div>
+                  <div class="formValue formMedium">
+                    <label class="no_01" style="width:433px;">
+                      <input type="checkbox" id="pre_medications1" name="pre_medications[]" value="Dihydropyridine CCB" <?php echo in_array($pre_medications[1],$data['pre_medications'])?"checked":""?>>
+                      <span>Dihydropyridine CCB</span> </label>
+                    <label class="no_02">
+                      <input type="checkbox" id="pre_medications2" name="pre_medications[]" value="ACEI" <?php echo in_array($pre_medications[2],$data['pre_medications'])?"checked":""?>>
+                      <span>ACEI</span> </label>
+                    <label class="no_03" style="width:433px;">
+                      <input type="checkbox" id="pre_medications3" name="pre_medications[]" value="non-dihydropyridine CCB" <?php echo in_array($pre_medications[3],$data['pre_medications'])?"checked":""?>>
+                      <span>non-dihydropyridine CCB</span> </label>
+                    <label class="no_04">
+                      <input type="checkbox" id="pre_medications4" name="pre_medications[]" value="ARB" <?php echo in_array($pre_medications[4],$data['pre_medications'])?"checked":""?>>
+                      <span>ARB</span> </label>
+                    <label class="no_05">
+                      <input type="checkbox" id="pre_medications5" name="pre_medications[]" value="Digoxin" <?php echo in_array($pre_medications[5],$data['pre_medications'])?"checked":""?>>
+                      <span>Digoxin</span> </label>
+                    <label class="no_06">
+                      <input type="checkbox" id="pre_medications6" name="pre_medications[]" value="<?php echo $data['pre_medications']?>" <?php echo in_array($pre_medications[6],$data['pre_medications'])?"checked":""?>>
+                      <span>α-blocker</span> </label>
+                    <label class="no_07">
+                      <input type="checkbox" id="pre_medications7" name="pre_medications[]" value="<?php echo $data['pre_medications']?>" <?php echo in_array($pre_medications[7],$data['pre_medications'])?"checked":""?>>
+                      <span>β-Blocker</span> </label>
+                    <label class="no_08">
+                      <input type="checkbox" id="pre_medications8" name="pre_medications[]" value="<?php echo $data['pre_medications']?>" <?php echo in_array($pre_medications[8],$data['pre_medications'])?"checked":""?>>
+                      <span>Loop diuretics</span> </label>
+                    <label class="no_09">
+                      <input type="checkbox" id="pre_medications9" name="pre_medications[]" value="<?php echo $data['pre_medications']?>" <?php echo in_array($pre_medications[9],$data['pre_medications'])?"checked":""?>>
+                      <span>Thiazide</span> </label>
+                    <label class="no_10">
+                      <input type="checkbox" id="pre_medications10" name="pre_medications[]" value="<?php echo $data['pre_medications']?>" <?php echo in_array($pre_medications[10],$data['pre_medications'])?"checked":""?>>
+                      <span>Spironolactone</span> </label>
+                    <label class="no_11">
+                      <input type="checkbox" id="pre_medications11" name="pre_medications[]" value="<?php echo $data['pre_medications']?>" <?php echo in_array($pre_medications[11],$data['pre_medications'])?"checked":""?>>
+                      <span>Statin</span> </label>
+                    <label class="no_12">
+                      <input type="checkbox" id="pre_medications12" name="pre_medications[]" value="<?php echo $data['pre_medications']?>" <?php echo in_array($pre_medications[12],$data['pre_medications'])?"checked":""?>>
+                      <span>Warfarin</span> </label>
+                    <label class="no_13">
+                      <input type="checkbox" id="pre_medications13" name="pre_medications[]" value="<?php echo $data['pre_medications']?>" <?php echo in_array($pre_medications[13],$data['pre_medications'])?"checked":""?>>
+                      <span>NOAC</span> </label>
+                    <label class="no_14">
+                      <input type="checkbox" id="pre_medications14" name="pre_medications[]" value="<?php echo $data['pre_medications']?>" <?php echo in_array($pre_medications[14],$data['pre_medications'])?"checked":""?>>
+                      <span>Aspirin</span> </label>
+                    <label class="no_15">
+                      <input type="checkbox" id="pre_medications15" name="pre_medications[]" value="<?php echo $data['pre_medications']?>" <?php echo in_array($pre_medications[15],$data['pre_medications'])?"checked":""?>>
+                      <span>Plavix</span> </label>
+                    <label class="no_16">
+                      <input type="checkbox" id="pre_medications16" name="pre_medications[]" value="<?php echo $data['pre_medications']?>" <?php echo in_array($pre_medications[16],$data['pre_medications'])?"checked":""?>>
+                      <span>Ticagrelor</span> </label>
+                    <label class="no_17">
+                      <input type="checkbox" id="pre_medications17" name="pre_medications[]" value="<?php echo $data['pre_medications']?>" <?php echo in_array($pre_medications[17],$data['pre_medications'])?"checked":""?>>
+                      <span>Cilostazol</span> </label>
+                    <label class="no_18">
+                      <input type="checkbox" id="pre_medications18" name="pre_medications[]" value="<?php echo $data['pre_medications']?>" <?php echo in_array($pre_medications[18],$data['pre_medications'])?"checked":""?>>
+                      <span>Nitrate</span> </label>
+                    <label class="no_19">
+                      <input type="checkbox" id="pre_medications19" name="pre_medications[]" value="<?php echo $data['pre_medications']?>" <?php echo in_array($pre_medications[19],$data['pre_medications'])?"checked":""?>>
+                      <span>Apresoline</span> </label>
+                    <label class="no_20">
+                      <input type="checkbox" id="pre_medications20" name="pre_medications[]" value="<?php echo $data['pre_medications']?>" <?php echo in_array($pre_medications[20],$data['pre_medications'])?"checked":""?>>
+                      <span>Metformin</span> </label>
+                    <label class="no_21">
+                      <input type="checkbox" id="pre_medications21" name="pre_medications[]" value="<?php echo $data['pre_medications']?>" <?php echo in_array($pre_medications[21],$data['pre_medications'])?"checked":""?>>
+                      <span>Acarbose</span> </label>
+                    <label class="no_22">
+                      <input type="checkbox" id="pre_medications22" name="pre_medications[]" value="<?php echo $data['pre_medications']?>" <?php echo in_array($pre_medications[22],$data['pre_medications'])?"checked":""?>>
+                      <span>Insulin</span> </label>
+                    <label class="no_23">
+                      <input type="checkbox" id="pre_medications23" name="pre_medications[]" value="<?php echo $data['pre_medications']?>" <?php echo in_array($pre_medications[23],$data['pre_medications'])?"checked":""?>>
+                      <span>Sulfaurea</span> </label>
+                    <label class="no_24">
+                      <input type="checkbox" id="pre_medications24" name="pre_medications[]" value="<?php echo $data['pre_medications']?>" <?php echo in_array($pre_medications[24],$data['pre_medications'])?"checked":""?>>
+                      <span>DPP4 inhibitor</span> </label>
+                    <label class="no_25">
+                      <input type="checkbox" id="pre_medications25" name="pre_medications[]" value="<?php echo $data['pre_medications']?>" <?php echo in_array($pre_medications[25],$data['pre_medications'])?"checked":""?>>
+                      <span>GLP-1 analogue</span> </label>
+                    <label class="no_26">
+                      <input type="checkbox" id="pre_medications26" name="pre_medications[]" value="<?php echo $data['pre_medications']?>" <?php echo in_array($pre_medications[26],$data['pre_medications'])?"checked":""?>>
+                      <span>TZD</span> </label>
+                    <label class="no_27">
+                      <input type="checkbox" id="pre_medications27" name="pre_medications[]" value="<?php echo $data['pre_medications']?>" <?php echo in_array($pre_medications[27],$data['pre_medications'])?"checked":""?>>
+                      <span>Amiodarone</span> </label>
+                    <label class="no_28">
+                      <input type="checkbox" id="pre_medications28" name="pre_medications[]" value="<?php echo $data['pre_medications']?>" <?php echo in_array($pre_medications[28],$data['pre_medications'])?"checked":""?>>
+                      <span>Dronedarone</span> </label>
+                    <p>NOAC: novel oral anticoagulants</p>
+                  </div>
+                  <div class="clearfloat"></div>
+                </div>
+                <!---->
+                <div class="formSection no_04">
+                  <div class="formLabel">心電圖:</div>
+                  <div class="formValue">
+                    <label class="no_01">
+                      <input type="checkbox" id="ecg1" name="ecg[]" value="<?php echo $data['ecg']?>" <?php echo in_array($ecg[1],$data['ecg'])?"checked":""?>>
+                      SR </label>
+                    <label class="no_02">
+                      <input type="checkbox" id="ecg2" name="ecg[]" value="<?php echo $data['ecg']?>" <?php echo in_array($ecg[2],$data['ecg'])?"checked":""?>>
+                      AFib </label>
+                    <label class="no_03">
+                      <input type="checkbox" id="ecg3" name="ecg[]" value="<?php echo $data['ecg']?>" <?php echo in_array($ecg[3],$data['ecg'])?"checked":""?>>
+                      Atrial flutter </label>
+                    <label class="no_04">
+                      <input type="checkbox" id="ecg4" name="ecg[]" value="<?php echo $data['ecg']?>" <?php echo in_array($ecg[4],$data['ecg'])?"checked":""?>>
+                      LBBB </label>
+                    <label class="no_05">
+                      <input type="checkbox" id="ecg5" name="ecg[]" value="<?php echo $data['ecg']?>" <?php echo in_array($ecg[5],$data['ecg'])?"checked":""?>>
+                      RBBB </label>
+                    <label class="no_06">
+                      <input type="checkbox" id="ecg6" name="ecg[]" value="<?php echo $data['ecg']?>" <?php echo in_array($ecg[6],$data['ecg'])?"checked":""?>>
+                      Pacing rhythm</label>
+                  </div>
+                  <div class="clearfloat"></div>
+                </div>
+                <!---->
+                <div class="formSection no_05">
+                  <div class="formLabel">生化檢查 before PCI:</div>
+                  <div class="formValue formLarge">
+                    <label class="no_01"> <span>Hgb</span>
+                      <input type="text" name="bpci_hgb" id="bpci_hgb" value="<?php echo $data['bpci_hgb']?>">
+                      g/L </label>
+                    <label class="no_02"> <span>T.chol</span>
+                      <input type="text" name="bpci_tchol" id="bpci_tchol" value="<?php echo $data['bpci_tchol']?>">
+                      mg/dL </label>
+                    <label class="no_03"> <span>Alb</span>
+                      <input type="text" name="bpci_alb" id="bpci_alb" value="<?php echo $data['bpci_alb']?>">
+                    </label>
+                    <label class="no_04"> <span>TG</span>
+                      <input type="text" name="bpci_tg" id="bpci_tg" value="<?php echo $data['bpci_tg']?>">
+                      mg/dL </label>
+                    <label class="no_05"> <span>UA</span>
+                      <input type="text" name="bpci_ua" id="bpci_ua" value="<?php echo $data['bpci_ua']?>">
+                    </label>
+                    <label class="no_06"> <span>HDL</span>
+                      <input type="text" name="bpci_hdl" id="bpci_hdl" value="<?php echo $data['bpci_hdl']?>">
+                      mg/dL</label>
+                    <label class="no_07"> <span>T.bil</span>
+                      <input type="text" name="bpci_tbil" id="bpci_tbil" value="<?php echo $data['bpci_tbil']?>">
+                    </label>
+                    <label class="no_08"> <span>LDL</span>
+                      <input type="text" name="bpci_ldl" id="bpci_ldl" value="<?php echo $data['bpci_ldl']?>">
+                      mg/dL</label>
+                  </div>
+                  <div class="clearfloat"></div>
+                </div>
+                <!---->
+               
+              </div>
+            </div>
+            <?php require_once(ROOT_PATH.'Tpl/footer_button.html');?>
+          </div>
+        </div>
+      </div>
+</form>
+<script type="text/javascript">
+<!--
+<?if ($ModifyPermission) {?>
+$(document).ready(function(){
+/*	$("input[name=acs_admisssion]").click(function(){
+		if($("input[name=acs_admisssion]:checked").val()=='Yes'){
+     $("input[name='acs_admisssion_s']").attr("disabled", false);
+		// $("#acs_admisssion_s1").focus();
+     $("input[name='acs_admisssion_s']").filter('[value=STEMI]').prop('checked', true);;
+		}else{
+			$("input[name='acs_admisssion_s']").attr("checked", false);
+      	$("input[name='acs_admisssion_s']").attr("disabled", true);
+		}
+	});
+	if($("input[name=ethnicity]:checked").val()=='Others'){
+		$("#ethnicity_others").show();
+	}*/
+})
+<?}?>
+function checkForm() {
+	// var status=0; //0 未填,1 有填
+	var ckField;
+	var finish = 0;
+	var status = new Array();
+	var msg = new Array();
+	var finish_stuts = new Array();
+	//radio
+	ckField=$("input[name=sex]:checked").val();
+	if (ckField=='' || typeof(ckField)=='undefined') {status.push(0);msg.push("Sex is not selected!");} else status.push(1);
+	//date
+  ckField=$("input[name=pciday]").val();
+	if (ckField=='') {status.push(0);msg.push("PCI date is Unfilled!");} else status.push(1);
+  ckField=$("input[name=birthday]").val();
+	if (ckField=='') {status.push(0);msg.push("出生日 is Unfilled!");} else status.push(1);
+	//text
+  if($('#phospital_id').val()=='') {status.push(0);msg.push("Individual Hospital ID!");} else status.push(1);
+  if($('#nyha').val()=='') {status.push(0);msg.push("NYHA is Unfilled!");} else status.push(1);
+  if($('#p_lvef').val()=='') {status.push(0);msg.push("Pre-procedure LVEF is Unfilled!");} else status.push(1);
+  if($('#ventriculogram').val()=='') {status.push(0);msg.push("Echo is Unfilled!");} else status.push(1);
+  if($('#bpci_hgb').val()=='') {status.push(0);msg.push("Hgb is Unfilled!");} else status.push(1);
+  if($('#bpci_tchol').val()=='') {status.push(0);msg.push("T.chol is Unfilled!");} else status.push(1);
+  if($('#bpci_alb').val()=='') {status.push(0);msg.push("Alb is Unfilled!");} else status.push(1);
+  if($('#bpci_tg').val()=='') {status.push(0);msg.push("TG is Unfilled!");} else status.push(1);
+  if($('#bpci_ua').val()=='') {status.push(0);msg.push("UA is Unfilled!");} else status.push(1);
+  if($('#bpci_hdl').val()=='') {status.push(0);msg.push("HDL is Unfilled!");} else status.push(1);
+  if($('#bpci_tbil').val()=='') {status.push(0);msg.push("T.bil is Unfilled!");} else status.push(1);
+  if($('#bpci_ldl').val()=='') {status.push(0);msg.push("LDL is Unfilled!");} else status.push(1);
+  
+  
+	//checkbox
+  if ($("input[name='hospital_id[]']:checked").length==0) {status.push(0);msg.push("Hospital ID is not selected!");} else status.push(1);
+  if ($("input[name='a_diagnosis[]']:checked").length==0) {status.push(0);msg.push("術前診斷 is not selected!");} else status.push(1);
+  if ($("input[name='medical_history[]']:checked").length==0) {status.push(0);msg.push("Medical history is not selected!");} else status.push(1);
+  if ($("input[name='pre_medications[]']:checked").length==0) {status.push(0);msg.push("Pre-procedure Medications is not selected!");} else status.push(1);
+  if ($("input[name='ecg[]']:checked").length==0) {status.push(0);msg.push("心電圖 is not selected!");} else status.push(1);
+  
+  
+  
+  
+	for (key in status) {
+		finish+=status[key];
+	}
+	if (finish==status.length) finish_stuts['status']=1;
+	else if (finish==0) finish_stuts['status']=0;
+	else finish_stuts['status']=-1;
+	finish_stuts['msg'] = msg.join("\n");
+	return finish_stuts;
+} 
+//-->
+</script>
+<?php
+}
+require_once(ROOT_PATH.'Tpl/footer.html');
+?>

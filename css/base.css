@@ -1,0 +1,480 @@
+@charset "utf-8";
+/* CSS Document */
+
+body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,form,fieldset,input,p,blockquote,th,td{
+	margin:0;
+	padding:0;
+}
+table{
+	border-collapse:collapse;
+	border-spacing:0;
+}
+fieldset,img{
+	border:0;
+}
+address,caption,cite,code,dfn,var{
+	font-style:normal;
+	font-weight:normal;
+}
+ol,ul {
+	/*list-style:none;*/
+}
+caption {
+	text-align:left;
+}
+a {
+	text-decoration:none;
+}
+a:link {
+	color:#0041EA;
+}
+a:visited{
+	color:#9933CC;
+}
+a:hover{
+	color:#9b0910;
+}
+a:active{
+	color:#0041EA;
+}
+p {
+	margin-bottom:15px;
+}
+.clearfloat {
+	font-size:0px;
+	line-height:0px;
+	clear:both;
+	height:0px;
+}
+/*---------------------------------------------------------------------------*/
+html {
+	height:100%;
+}
+body {
+	color:#555;
+	font-size:13px;
+	font-family:Calibri, sans-serif;
+	line-height:18px;
+	background-image:url(../images/body_bg_P.jpg);
+	background-repeat:repeat-x;
+	background-position:left top;
+}
+.body_bg {}
+.container {
+	width:1008px;
+	margin-right:auto;
+	margin-left:auto;
+}
+/*--------------------------------header-------------------------------------*/
+.header {
+	width:1000px;
+	height:146px;
+	background-image:url(../images/headerBox_bg.png);
+	background-repeat:no-repeat;
+	background-position:right top;
+	position:relative;
+	padding-left:4px;
+	padding-right:4px;
+}
+/*----------------------logo--------------------------*/
+.logo {
+	width:430px;
+	height:26px;
+	position:absolute;
+	top:20px;
+	left:14px;
+}
+.logo h1 {}
+.logo h1 a {
+	width:465px;
+	height:52px;
+	display:block;
+	text-indent:-20000px;
+	background-image:url(../images/logo_02.png);
+	background-repeat:no-repeat;
+	background-position:left top;
+	overflow:hidden;
+}
+/*--------------------loginDataBox------------------------*/
+.loginDataBox {
+	width:972px;
+	position:absolute;
+	bottom:10px;
+	left:14px;
+}
+.loginDataBox ul {
+	list-style:none;
+}
+.loginDataBox li {
+	float:left;
+	color:#ebeaeb;
+	margin-right:30px;
+}
+.loginDataBox li span {
+	padding-left:5px;
+}
+.loginDataBox li .logOutBtn {
+	width:73px;
+	height:26px;
+	display:block;
+	background-image:url(../languages_img/en/logout_btn.png);
+	background-repeat:no-repeat;
+	background-position:left top;
+	text-indent:-200000px;
+	overflow:hidden;
+}
+.loginDataBox li .logOutBtn:hover {
+	background-position:left bottom;
+}
+/*-------------------------------------------------*/
+.loginDataBox li.no_03 {
+	margin-right:40px;
+}
+/*-----------------回預設列表-----------------------*/
+.loginDataBox li.no_04 {
+	margin-right:0px;
+	position:absolute;
+	right:0px;
+}
+.loginDataBox li.no_04 .patientListBtn {
+	width:97px;
+	height:26px;
+	display:block;
+	background-image:url(../languages_img/en/patientList_btn.png);
+	background-repeat:no-repeat;
+	background-position:left top;
+	text-indent:-20000px;
+	overflow:hidden;
+}
+.loginDataBox li.no_04 .patientListBtn:hover {
+	background-position:left bottom;
+}
+/*-----------------進度表總攬-----------------------*/
+.loginDataBox li.no_05 {
+	margin-right:0px;
+	position:absolute;
+	right:107px;
+}
+.loginDataBox li.no_05 .ScheduleOverviewBtn{
+	width:149px;
+	height:26px;
+	display:block;
+	background-image:url(../languages_img/en/scheduleOverview_btn.png);
+	background-repeat:no-repeat;
+	background-position:left top;
+	text-indent:-20000px;
+	overflow:hidden;
+}
+.loginDataBox li.no_05 .ScheduleOverviewBtn:hover {
+	background-position:left bottom;
+}
+/*--------------------------------mainPage-------------------------------------*/
+.mainPage {
+	width:1008px;
+	background-image:url(../images/mainPage_bg_01.png);
+	background-repeat:no-repeat;
+	background-position:left top;
+	/*padding-top:10px;*/
+}
+.mainPage_bg {
+	background-image:url(../images/mainPage_bg_03.png);
+	background-repeat:no-repeat;
+	background-position:left bottom;
+	padding-bottom:10px;
+}
+.mainContent {
+	width:940px;
+	background-image:url(../images/mainPage_bg_02.png);
+	background-repeat:repeat-y;
+	background-position:left top;
+	padding-left:34px;
+	padding-right:34px;
+	padding-top:20px;
+	padding-bottom:20px;
+}
+.pageBox {
+	width:940px;
+}
+/*--------------------------------footer-------------------------------------*/
+.footerBox {
+	width:1000px;
+	line-height:16px;
+	padding-top:15px;
+	padding-bottom:10px;
+}
+.footerBox address {
+	display:block;
+	color:#646c6f;
+	font-size:12px;
+	text-align:center;
+}
+/*------------------iware-----------------------*/
+.iware {
+	text-align:right;
+	color:#999;
+	font-size:12px;
+	padding-right:10px;
+}
+.iware a {
+	color:#999;
+}
+.iware a:hover {
+	color:#333;
+}
+/*------------------------------baseBtn 基本CSS-------------------------------*/
+.baseBtn a {
+	display:block;
+	text-indent:-20000px;
+	background-repeat:no-repeat;
+	background-position:left top;
+	overflow:hidden;
+}
+.baseBtn a:hover {
+	background-position:left bottom;
+}
+.baseBtn input {
+	background-color:transparent;
+	background-repeat:no-repeat;
+	background-position:left top;
+	border:none;
+	cursor:pointer;
+}
+.baseBtn input:hover {
+	background-position:left bottom;
+}
+/*----------------------------------按鈕-------------------------------------*/
+.calBtn {
+	background-color:transparent;
+	background-repeat:no-repeat;
+	background-position:left top;
+	border:none;
+	cursor:pointer;
+	width:19px;
+	height:19px;
+	background-image:url(../images/calendar_btn.jpg);
+}
+.searchBtn {
+	width:73px;
+	height:25px;
+	background-image:url(../languages_img/en/search_btn.jpg);
+}
+.storeBtn {
+	width:73px;
+	height:25px;
+	background-image:url(../languages_img/en/store_btn.jpg);
+}
+.nextStepBtn {
+	width:73px;
+	height:25px;
+	background-image:url(../languages_img/en/nextStep_btn.jpg);
+}
+.prevBtn {
+	width:73px;
+	height:25px;
+	background-image:url(../languages_img/en/prev_btn.jpg);
+}
+.addNewPatientBtn {
+	width:150px;
+	height:25px;
+	background-image:url(../languages_img/en/addNewPatient_btn.jpg);
+}
+.calendarBtn input {
+	width:19px;
+	height:19px;
+	background-image:url(../images/calendar_btn.jpg);
+}
+.completedBtn {
+	width:73px;
+	height:25px;
+	background-image:url(../languages_img/en/completed_btn.jpg);
+}
+.patientListBtn_02 {
+	width:83px;
+	height:25px;
+	background-image:url(../languages_img/en/patientList_btn_02.jpg);
+}
+/*------------------------------form 表單基本CSS------------------------------------*/
+.formBox {}
+.formSection {}
+.formLabel {
+	float:left;
+	text-align:right;
+}
+.formValue {
+	float:left;
+}
+/*--------------------------------病歷搜尋------------------------------------*/
+.searchBox {
+	width:920px;
+	border-bottom:dashed 1px #ccc;
+	padding-bottom:20px;
+	padding-left:10px;
+	padding-right:10px;
+	margin-bottom:20px;
+}
+.searchBox b {
+	color:#333;
+}
+.searchBox label {
+	margin-right:30px;
+}
+.searchBox label input {
+	border:solid 1px #e3e9ef;
+	-webkit-border-radius:3px;
+	-moz-border-radius:3px;
+	border-radius:3px;
+	margin-left:3px;
+	margin-right:3px;
+}
+.searchBox label select {
+	border:solid 1px #e3e9ef;
+	-webkit-border-radius:3px;
+	-moz-border-radius:3px;
+	border-radius:3px;
+	margin-left:3px;
+	margin-right:3px;
+}
+.searchBox .baseBtn {
+	width:73px;
+	height:25px;
+	float:right;
+}
+/*------------------------------*/
+.searchBox .patientNo input {
+	width:50px;
+}
+.searchBox .initial {}
+.searchBox .enroll {}
+.searchBox .sort {}
+/*---------------------------------標題樣式--------------------------------------------*/
+.titleStyle_01 {
+	color:#333;
+	line-height:30px;
+	font-size:30px;
+	font-family:"Times New Roman", Times, serif;
+	background-image:url(../images/titleStyle_01-bg.jpg);
+	background-repeat:no-repeat;
+	background-position:right bottom;
+	margin-bottom:20px;
+}
+.titleStyle_01 span {
+	display:inline-block;
+	background-color:#fff;
+	padding-right:10px;
+	margin-bottom:-5px;
+}
+/*-------------------------------------------*/
+.titleStyle_02 {
+	width:900px;
+	height:30px;
+	color:#fff;
+	font-size:15px;
+	line-height:30px;
+	margin-bottom:15px;
+	text-indent:10px;
+	margin-left:10px;
+	background:#646c6e;
+	border-radius:5px;
+	
+}
+/*-------------------------------------分頁------------------------------------------*/
+.pagingBox {
+	width:940px;
+	margin-bottom:20px;
+}
+.pagingDataBox {
+	color:#777;
+	font-family:"新細明體", serif;
+	background-image:url(../images/pagingBox_bg.jpg);
+	background-repeat:no-repeat;
+	background-position:left bottom;
+	padding-bottom:5px;
+	padding-left:10px;
+	padding-right:10px;
+	margin-bottom:15px;
+}
+.pagingDataBox b {
+	padding-left:5px;
+	padding-right:5px;
+}
+/*-----------------*/
+.pagingBox ul {
+	width:330px;
+	height:23px;
+	list-style:none;
+	margin-left:auto;
+	margin-right:auto;
+}
+.pagingBox li {
+	width:22px;
+	height:23px;
+	float:left;
+	margin-left:4px;
+	margin-right:4px;
+}
+.pagingBox li a {
+	width:22px;
+	height:23px;
+	display:block;
+	color:#777;
+	text-align:center;
+	line-height:23px;
+	background-image:url(../images/bagingBtn_bg.jpg);
+	background-repeat:no-repeat;
+	background-position:left top;
+}
+.pagingBox li a:hover {
+	font-weight:bold;
+	color:#32447c;
+	text-shadow:1px 1px 0px #fff;
+	background-position:left bottom;
+}
+.pagingBox li.current a {
+	color:#fff;
+	font-weight:bold;
+	background-position:left -23px;
+}
+/*-------------------*/
+.pagingBox li.pagBtn {
+	margin-left:0px;
+	margin-right:0px;
+}
+.pagingBox li.pagBtn a {
+	text-align:left;
+	text-indent:-20000px;
+	overflow:hidden;
+}
+.pagingBox li.pagBtn a:hover {}
+/*-------------------*/
+.pagingBox li.upperestBtn {
+	margin-right:20px;
+}
+.pagingBox li.upperestBtn a {
+	background-image:url(../images/upperest_btn.jpg);
+}
+.pagingBox li.previousBtn {
+	margin-right:26px;
+}
+.pagingBox li.previousBtn a {
+	background-image:url(../images/previous_btn.jpg);
+}
+.pagingBox li.nextBtn {
+	margin-left:26px;
+}
+.pagingBox li.nextBtn a {
+	background-image:url(../images/next_btn.jpg);
+}
+.pagingBox li.lastPageBtn {
+	margin-left:20px;
+}
+.pagingBox li.lastPageBtn a {
+	background-image:url(../images/lastPage_btn.jpg);
+}
+
+
+
+
+
+
+
+

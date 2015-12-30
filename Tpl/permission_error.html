@@ -1,0 +1,8 @@
+<div class="mainPage"><div class="mainPage_bg"><div class="mainContent" style="height:200px;color:red;">Permission error!</div></div></div>
+<script type="text/javascript">
+$(document).ready(function(){
+	$(".patientListBtn").click(function(){
+		location.href="index.php?action=case_list<?=($_SESSION['p']>1?"&p=".$_SESSION['p']:"");?>";
+	});
+})
+</script>

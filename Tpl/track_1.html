@@ -1,0 +1,548 @@
+<?php 
+if(!defined('ROOT_PATH'))return;
+$actionkey=9;
+if($_POST){
+	if ($ModifyPermission) {
+	// $baseinfo=array();
+	// $status=explode(",",$patientInfo['finish_status']);
+	// $status=array_filter($status);
+	// if (empty($status)) for($i=0;$i<$actionkey;$i++) $status[$i]=0;
+	// $status[$actionkey]=$_POST['finish'];
+	// $baseinfo['finish_status']=join(",",$status);
+	// $lockstatus=explode(",",$patientInfo['lock_status']);
+	// $lockstatus=array_filter($lockstatus);
+	// if (empty($lockstatus)) for($i=0;$i<$actionkey;$i++) $lockstatus[$i]=0;
+	// if (check_number($_POST['signature'])) $lockstatus[$actionkey]=1;
+	// $baseinfo['lock_status']=join(",",$lockstatus);
+	// $class=new patient();
+	// $class->edit($baseinfo, $_SESSION['patient_id']);
+	include_once "baseinfo.php";
+
+	if ($_POST['finish']!=0) {
+	$post=array();
+	$post['re_hospitalization']=check_number($_POST['re_hospitalization']);
+	$post['re_hospitalization_yes']=check_input($_POST['re_hospitalization_yes']);
+	$post['re_hospitalization_reason']=check_input($_POST['re_hospitalization_reason']);
+	$post['re_hospitalization_start']=(trim($_POST['re_hospitalization_start'])!=""?date("Y-m-d",strtotime($_POST['re_hospitalization_start'])):"");
+	$post['re_hospitalization_end']=(trim($_POST['re_hospitalization_end'])!=""?date("Y-m-d",strtotime($_POST['re_hospitalization_end'])):"");
+	$post['revascularization']=check_number($_POST['revascularization']);
+	$post['revascularization_yes']=(trim($_POST['revascularization_yes'])!=""?date("Y-m-d",strtotime($_POST['revascularization_yes'])):"");
+	$post['PCI']=check_number($_POST['PCI']);
+	$post['PCI_yes_date']=(trim($_POST['PCI_yes_date'])!=""?date("Y-m-d",strtotime($_POST['PCI_yes_date'])):"");
+	$post['PCI_yes']=check_input($_POST['PCI_yes']);
+	$post['CABG']=check_number($_POST['CABG']);
+	$post['CABG_yes']=(trim($_POST['CABG_yes'])!=""?date("Y-m-d",strtotime($_POST['CABG_yes'])):"");
+	$post['pacing']=check_number($_POST['pacing']);
+	$post['pacing_yes']=(trim($_POST['pacing_yes'])!=""?date("Y-m-d",strtotime($_POST['pacing_yes'])):"");
+	$post['ICD']=check_number($_POST['ICD']);
+	$post['ICD_yes']=(trim($_POST['ICD_yes'])!=""?date("Y-m-d",strtotime($_POST['ICD_yes'])):"");
+	$post['Hb']=(is_array($_POST['Hb'])?(implode(".", $_POST['Hb'])!="."?check_number(implode('.', $_POST['Hb']),1):""):"");
+	$post['Hb_not_done']=check_number($_POST['Hb_not_done']);
+	$post['sugar_AC']=check_number($_POST['sugar_AC'],1);
+	$post['2h_PC_sugar']=check_number($_POST['2h_PC_sugar'],1);
+	$post['HbA1C']=check_number($_POST['HbA1C'],1);
+	$post['BUN']=check_number($_POST['BUN'],1);
+	$post['serum_creatinine']=(is_array($_POST['serum_creatinine'])?(implode(".", $_POST['serum_creatinine'])!="."?check_number(implode('.', $_POST['serum_creatinine']),1):""):"");
+	$post['BUN_not_done']=check_number($_POST['BUN_not_done']);
+	$post['cholesterol']=check_number($_POST['cholesterol'],1);
+	$post['cholesterol_HDL']=check_number($_POST['cholesterol_HDL'],1);
+	$post['cholesterol_LDL']=check_number($_POST['cholesterol_LDL'],1);
+	$post['triglyceride']=check_number($_POST['triglyceride'],1);
+	$post['triglyceride_not_done']=check_number($_POST['triglyceride_not_done']);
+	$post['uric_acid']=(is_array($_POST['uric_acid'])?(implode(".", $_POST['uric_acid'])!="."?check_number(implode('.', $_POST['uric_acid']),1):""):"");
+	$post['uric_acid_not_done']=check_number($_POST['uric_acid_not_done']);
+	$post['hypoglycemia']=check_number($_POST['hypoglycemia']);
+	$post['hypoglycemia_sugar_level']=check_number($_POST['hypoglycemia_sugar_level'],1);
+	$post['hypoglycemia_yes']=check_input($_POST['hypoglycemia_yes']);
+	
+	if (is_array($_POST['medication'])) {
+	$post['medication_id']=serialize($_POST['medication']);
+	foreach ($_POST['medication'] as $key=>$val) {
+	if ($val==1) {
+	$post['medication_txt'][$key]=$_POST['medication_txt'][$key];
+	$post['sub_medication_id'][$key]=$_POST['sub_medication'][$key];
+	}
+	}
+	$post['medication_txt']=serialize($post['medication_txt']);
+	$post['sub_medication_id']=serialize($post['sub_medication_id']);
+	}
+	
+	if ($customerInfo['group_id']==2) {
+	if (check_number($_POST['signature'])) {
+	$post['signature']=$_SESSION['customer_id'];
+	$post['date_added']=(trim($_POST['date_added'])!=""?date("Y-m-d",strtotime($_POST['date_added'])):"");
+	} else {
+	$post['signature']="";
+	$post['date_added']="";
+	}
+	}
+	
+	$class=new follow_up_discharge();
+	if(isset($_POST['id'])){
+		$class->edit($post, $_POST['id']);
+	}else{
+		$post['patient_id']=$_SESSION['patient_id'];
+		$post['user_id']=$_SESSION['customer_id'];
+		$post['create_date']=Date('Y-m-d H:i:s');
+		$id=$class->add($post);
+	}
+	}
+	}
+	if ($_POST['do']=="next") {
+	if ($post['re_hospitalization']=="-1") redirect("index.php?action=track_5");
+	else redirect("index.php?action=track_2");
+	}
+	elseif ($_POST['do']=="prev") redirect("index.php?action=patient_9");
+	else redirect("index.php?action=case_list".($_SESSION['p']>1?"&p=".$_SESSION['p']:""));
+	exit;
+}
+
+$data=array();
+// $specialData['multi']  = array("");
+$specialData['dcimal']  = array("Hb","serum_creatinine","uric_acid");
+if($_SESSION['patient_id']){
+	$fudClass=new follow_up_discharge();
+	$fudInfo=$fudClass->getFud((int)$_SESSION['patient_id']);
+	$data=getProcessedData($fudClass,$fudInfo,$specialData);
+	$data['medication']=unserialize($fudInfo['medication_id']);
+	$data['medication_txt']=unserialize($fudInfo['medication_txt']);
+	$data['sub_medication']=unserialize($fudInfo['sub_medication_id']);
+}
+
+require_once(ROOT_PATH.'Tpl/header.html');
+
+if ($noPermission) include "permission_error.html";
+else {
+?>
+<form id="form1" name="form1" method="post" action="" >
+<input type="hidden" name="do" value="next" />
+<input type="hidden" name="finish" value="0" />
+<?if ($fudInfo['id']>0) {?><input type="hidden" name="id" value="<?=$fudInfo['id']?>" /><?}?>
+<div class="mainPage">
+      <div class="mainPage_bg">
+        <div class="mainContent">
+          <div class="pageBox">
+          <?php require_once(ROOT_PATH.'Tpl/patient_header.html');?>
+            <div class="formSetBox">
+              <h2 class="titleStyle_01"><span>Follow up Post discharge</span></h2>
+              <div class="formBox followDischargeBox">
+                <div class="formSection no_01">
+                  <div class="formLabel">Re-hospitalization :</div>
+                  <div class="formValue">
+                    <label class="no_01">
+                      <input type="radio" name="re_hospitalization" <?php echo $data['re_hospitalization']=='-1'?'checked':'';?> value="-1" />
+                      Dead</label><br>
+                    <label class="no_01">
+                      <input type="radio" name="re_hospitalization" <?php echo $data['re_hospitalization']=='0'?'checked':'';?> value="0" />
+                      No</label>
+                    <div class="no_02">
+                      <label class="no_03">
+                        <input type="radio" name="re_hospitalization" <?php echo $data['re_hospitalization']==1?'checked':'';?> value="1" />
+                        Yes</label>
+                      <ul>
+                        <li>
+                        <?php 
+                        foreach ($re_hospitalization_yes as $ry){
+                        ?>
+                          <label><input type="radio" name="re_hospitalization_yes" <?php echo $data['re_hospitalization_yes']==$ry?'checked':'';?> value="<?php echo $ry;?>" /> <?php echo $ry;?></label>
+                        <?php }?>
+                        </li>
+                        <li><span>Reason :</span>
+                        <?php 
+                        foreach ($re_hospitalization_reason as $rh){
+                        ?>
+                          <label><input type="radio" name="re_hospitalization_reason" <?php echo $data['re_hospitalization_reason']==$rh?'checked':'';?> value="<?php echo $rh;?>" /> <?php echo $rh;?></label>
+                        <?php }?>
+                        </li>
+                        <li><span>Start:</span>
+                          <div class="dateBox">
+						<label class="no_01"><input type="text" name="re_hospitalization_start" class="datePicker" value="<?php echo $data['re_hospitalization_start'];?>"></label>
+						</div>
+                        </li>
+                        <li><span>End :</span>
+                          <div class="dateBox">
+						<label class="no_01"><input type="text" name="re_hospitalization_end" class="datePicker" value="<?php echo $data['re_hospitalization_end'];?>"></label>
+						</div>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                  <div class="clearfloat"></div>
+                </div>
+                <div class="formSection no_02">
+                  <div class="formLabel">Repeat Revascularization :</div>
+                  <div class="formValue">
+                    <label class="no_01">
+                      <input type="radio" name="revascularization" <?php echo $data['revascularization']=='0'?'checked':'';?> value="0" />
+                      No</label>
+                    <div class="no_02">
+                      <label class="no_03">
+                        <input type="radio" name="revascularization" <?php echo $data['revascularization']==1?'checked':'';?> value="1" />
+                        Yes</label>
+                      (
+                      <div class="dateBox">
+                      <label class="no_01"><input type="text" name="revascularization_yes" class="datePicker"  value="<?php echo $data['revascularization_yes'];?>"></label>
+                      </div>
+                      )</div>
+                  </div>
+                  <div class="clearfloat"></div>
+                </div>
+                <div class="formSection no_03">
+                  <div class="formLabel">PCI:</div>
+                  <div class="formValue">
+                    <label class="no_01">
+                      <input type="radio" name="PCI" <?php echo $data['PCI']=='0'?'checked':'';?> value="0" />
+                      No</label>
+                    <div class="no_02">
+                      <label class="no_03">
+                        <input type="radio" name="PCI" <?php echo $data['PCI']==1?'checked':'';?> value="1" />
+                        Yes</label>
+                      (
+                      <div class="dateBox">
+                      <label class="no_01"><input type="text" name="PCI_yes_date" class="datePicker"  value="<?php echo $data['PCI_yes_date'];?>"></label>
+                      </div>
+                      ,
+                      <label class="no_04">
+                        <input type="radio" name="PCI_yes" <?php echo $data['PCI_yes']=='planned'?'checked':'';?> value="planned" />
+                        planned</label>
+                      <label class="no_05">
+                        <input type="radio" name="PCI_yes" <?php echo $data['PCI_yes']=='unplanned'?'checked':'';?> value="unplanned" />
+                        unplanned</label>
+                      ) </div>
+                  </div>
+                  <div class="clearfloat"></div>
+                </div>
+                <div class="formSection no_04">
+                  <div class="formLabel">CABG:</div>
+                  <div class="formValue">
+                    <label class="no_01">
+                      <input type="radio" name="CABG" <?php echo $data['CABG']=='0'?'checked':'';?> value="0" />
+                      No</label>
+                    <div class="no_02">
+                      <label class="no_03">
+                        <input type="radio" name="CABG" <?php echo $data['CABG']==1?'checked':'';?> value="1" />
+                        Yes</label>
+                      (
+                      <div class="dateBox">
+                      <label class="no_01"><input type="text" name="CABG_yes" class="datePicker"  value="<?php echo $data['CABG_yes'];?>"></label>
+                      </div>
+                      )</div>
+                  </div>
+                  <div class="clearfloat"></div>
+                </div>
+                <div class="formSection no_05">
+                  <div class="formLabel">Biventricular Pacing:</div>
+                  <div class="formValue">
+                    <label class="no_01">
+                      <input type="radio" name="pacing" <?php echo $data['pacing']=='0'?'checked':'';?> value="0" />
+                      No</label>
+                    <div class="no_02">
+                      <label class="no_03">
+                        <input type="radio" name="pacing" <?php echo $data['pacing']==1?'checked':'';?> value="1" />
+                        Yes</label>
+                      (
+                      <div class="dateBox">
+                      <label class="no_01"><input type="text" name="pacing_yes" class="datePicker"  value="<?php echo $data['pacing_yes'];?>"></label>
+                      </div>
+                      ) </div>
+                  </div>
+                  <div class="clearfloat"></div>
+                </div>
+                <div class="formSection no_06">
+                  <div class="formLabel">ICD:</div>
+                  <div class="formValue">
+                    <label class="no_01">
+                      <input type="radio" name="ICD" <?php echo $data['ICD']=='0'?'checked':'';?> value="0" />
+                      No</label>
+                    <div class="no_02">
+                      <label class="no_03">
+                        <input type="radio" name="ICD" <?php echo $data['ICD']=='1'?'checked':'';?>  value="1" />
+                        Yes</label>
+                      (
+                      <div class="dateBox">
+                      <label class="no_01"><input type="text" name="ICD_yes" class="datePicker"  value="<?php echo $data['ICD_yes'];?>"></label>
+                      </div>
+                      )</div>
+                  </div>
+                  <div class="clearfloat"></div>
+                </div>
+                <div class="formSection no_07">
+                  <div class="formLabel">Hb:</div>
+                  <div class="formValue">
+                    <label class="no_01" style="margin-right:0px;">
+                      <input type="text" name="Hb[0]" value="<?php echo $data['Hb'][0];?>" onKeyPress="Check_num();" onBlur="Cls_event();" <?php echo $data['Hb_not_done']==1?'disabled':'';?> >
+                      .</label>
+                      <label class="no_01"><input type="text" name="Hb[1]" value="<?php echo $data['Hb'][1]?>" onKeyPress="Check_num();" onBlur="Cls_event();" <?php echo $data['Hb_not_done']==1?'disabled':'';?>>
+                      mg/dl</label>
+                    <label class="no_02">
+                      <input type="checkbox" name="Hb_not_done" <?php echo $data['Hb_not_done']==1?'checked':'';?> value="1" />
+                      Not Done</label>
+                  </div>
+                  <div class="clearfloat"></div>
+                </div>
+                <div class="formSection no_08">
+                  <div class="formLabel">Sugar AC:</div>
+                  <div class="formValue">
+                    <label class="no_01">
+                      <input type="text" name="sugar_AC" value="<?php echo $data['sugar_AC'];?>" onKeyPress="Check_num();" onBlur="Cls_event();">
+                      mg/dl</label>
+                    <label class="no_02">2h PC Sugar
+                      <input type="text" name="2h_PC_sugar" value="<?php echo $data['2h_PC_sugar'];?>" onKeyPress="Check_num();" onBlur="Cls_event();">
+                      mg/dl</label>
+                    <label class="no_03">HbA1C
+                      <input type="text" name="HbA1C" value="<?php echo $data['HbA1C'];?>" onKeyPress="Check_num();" onBlur="Cls_event();">
+                      %</label>
+                  </div>
+                  <div class="clearfloat"></div>
+                </div>
+                <div class="formSection no_09">
+                  <div class="formLabel">BUN:</div>
+                  <div class="formValue">
+                    <label class="no_01">
+                      <input type="text" name="BUN" value="<?php echo $data['BUN'];?>" onKeyPress="Check_num();" onBlur="Cls_event();">
+                      mg/dl</label>
+                    <label class="no_02" style="margin-right:0px;">Serum Creatinine
+                      <input type="text" name="serum_creatinine[0]" value="<?php echo $data['serum_creatinine'][0]?>" onKeyPress="Check_num();" onBlur="Cls_event();">
+                      .</label>
+                      <label class="no_02"><input type="text" name="serum_creatinine[1]" value="<?php echo $data['serum_creatinine'][1]?>" onKeyPress="Check_num();" onBlur="Cls_event();">
+                      mg/dl</label>
+                    <label class="no_03">
+                      <input type="checkbox" name="BUN_not_done" <?php echo $data['BUN_not_done']==1?'checked':'';?> value="1" />
+                      Not Done</label>
+                  </div>
+                  <div class="clearfloat"></div>
+                </div>
+                <div class="formSection no_10">
+                  <div class="formLabel">Total cholesterol:</div>
+                  <div class="formValue">
+                    <label class="no_01">
+                      <input type="text" name="cholesterol" value="<?php echo $data['cholesterol'];?>" onKeyPress="Check_num();" onBlur="Cls_event();">
+                      mg/dl</label>
+                    <label class="no_02">HDL
+                      <input type="text" name="cholesterol_HDL" value="<?php echo $data['cholesterol_HDL']?>" onKeyPress="Check_num();" onBlur="Cls_event();">
+                      mg/dl</label>
+                    <label class="no_03">LDL
+                      <input type="text" name="cholesterol_LDL" value="<?php echo $data['cholesterol_LDL'];?>" onKeyPress="Check_num();" onBlur="Cls_event();">
+                      mg/dl</label>
+                  </div>
+                  <div class="clearfloat"></div>
+                </div>
+                <div class="formSection no_11">
+                  <div class="formLabel">Triglyceride:</div>
+                  <div class="formValue">
+                    <label class="no_01">
+                      <input type="text" name="triglyceride" value="<?php echo $data['triglyceride']?>" onKeyPress="Check_num();" onBlur="Cls_event();" <?php echo $data['triglyceride_not_done']=='1'?'disabled':'';?>>
+                      mg/dl</label>
+                    <label>
+                      <input type="checkbox" name="triglyceride_not_done" <?php echo $data['triglyceride_not_done']=='1'?'checked':'';?> value="1" />
+                      Not Done</label>
+                  </div>
+                  <div class="clearfloat"></div>
+                </div>
+                <div class="formSection no_12">
+                  <div class="formLabel">Uric acid:</div>
+                  <div class="formValue">
+                    <label class="no_01" style="margin-right:0px;">
+                      <input type="text" name="uric_acid[0]" value="<?php echo $data['uric_acid'][0];?>" onKeyPress="Check_num();" onBlur="Cls_event();" <?php echo $data['uric_acid_not_done']==1?'disabled':'';?>>
+                      .</label>
+                      <label class="no_01"><input type="text" name="uric_acid[1]" value="<?php echo $data['uric_acid'][1];?>" onKeyPress="Check_num();" onBlur="Cls_event();" <?php echo $data['uric_acid_not_done']==1?'disabled':'';?>>
+                      mg/dl</label>
+                    <label>
+                      <input type="checkbox" name="uric_acid_not_done" <?php echo $data['uric_acid_not_done']==1?'checked':'';?> value="1" />
+                      Not Done</label>
+                  </div>
+                  <div class="clearfloat"></div>
+                </div>
+                <div class="formSection no_13">
+                  <div class="formLabel">Hypoglycemia:</div>
+                  <div class="formValue">
+                    <label class="no_01">
+                      <input type="radio" name="hypoglycemia" <?php echo $data['hypoglycemia']=='0'?'checked':'';?> value="0" />
+                      No</label>
+                    <div class="no_02">
+                      <label class="no_03">
+                        <input type="radio" name="hypoglycemia" <?php echo $data['hypoglycemia']==1?'checked':'';?> value="1" />
+                        Yes</label>
+                      (
+                      <label class="no_04">sugar level
+                        <input type="text" name="hypoglycemia_sugar_level" value="<?php echo $data['hypoglycemia_sugar_level']?>" onKeyPress="Check_num();" onBlur="Cls_event();">
+                        mg/dl</label>
+                      ,
+                      <?php 
+                      foreach ($hypoglycemia_yes as $k=>$hy){
+                      ?>
+                      <label class="no_0<?php echo $k+5;?>">
+                        <input type="radio" name="hypoglycemia_yes" <?php echo $data['hypoglycemia_yes']==$hy?'checked':'';?> value="<?php echo $hy;?>" /> <?php echo $hy;?></label>
+                        <?php }?>
+                      ) </div>
+                  </div>
+                  <div class="clearfloat"></div>
+                </div>
+              </div>
+            </div>
+            <div class="formSetBox">
+              <h2 class="titleStyle_01"><span>Follow up Post discharge Medication</span></h2>
+              <div class="formBox followMedicationBox medicationBox">
+				<?
+				$i=1;
+				$medication_category = $webdb->getList("select * from _web_follow_medication_category where parent_id=0 and is_show=1 order by sort");
+				foreach ($medication_category as $rs) {
+				$sub_medication = $webdb->getList("select * from _web_follow_medication_category where parent_id=".$rs["id"]." and is_show=1 order by sort");
+				$sub_num=count($sub_medication);
+				?>
+                <div class="formSection no_<?=$i<10?('0'.$i):$i;?>">
+                  <div class="formLabel"><?=$i.". ".$rs['name'];?>:</div>
+                  <div class="formValue">
+                    <label>
+                      <input type="radio" name="medication[<?=$rs["id"];?>]" <?php echo $data['medication'][$rs["id"]]=='0'?'checked':'';?> value="0" onClick="checkYes('<?=$rs["id"];?>',this.value,0);" />
+                      No</label>
+                    <label>
+                      <input type="radio" name="medication[<?=$rs["id"];?>]" <?php echo $data['medication'][$rs["id"]]==1?"checked":'';?> value="1" onClick="checkYes('<?=$rs["id"];?>',this.value,'<?=$sub_num;?>');" />
+                      Yes</label> <input type="text" name="medication_txt[<?=$rs["id"];?>]" id="medication_txt<?=$rs["id"];?>" value="<?=$data['medication_txt'][$rs["id"]]?>" style="width:100px;display:<?=$data['medication'][$rs["id"]]==1?"":"none";?>;" onKeyPress="Check_num();" onBlur="Cls_event();"><span id="note_txt<?=$rs["id"];?>" style="display:<?=$data['medication'][$rs["id"]]==1?"":"none";?>;">劑量/天</span>
+                    <div class="medicationItenBox" id="txt_<?=$rs["id"];?>" style="display:<?=$data['medication'][$rs["id"]]==1 && $sub_num>0?"":"none";?>;">
+                      <?
+					  foreach ($sub_medication as $sub) {
+					  ?>
+					  <label><input type="checkbox" name="sub_medication[<?=$rs["id"];?>][]" value="<?=$sub["id"];?>" <?php if(is_array($data['sub_medication'][$rs["id"]]) && in_array($sub["id"],$data['sub_medication'][$rs["id"]])) echo 'checked';?>> <?=$sub["name"];?></label>
+					  <?}?>
+                    </div>
+                  </div>
+                  <div class="clearfloat"></div>
+                </div>
+				<?$i++;}?>
+              </div>
+            </div>
+            <?php require_once(ROOT_PATH.'Tpl/sign.php');?>
+            <?php require_once(ROOT_PATH.'Tpl/footer_button.html');?>
+          </div>
+        </div>
+      </div>
+</div>
+</form>
+<script type="text/javascript">
+<!--
+<?if ($ModifyPermission) {?>
+$(document).ready(function(){
+	$("input[name=Hb_not_done]").click(function(){
+	if (this.checked) {$("input[name='Hb[0]']").attr('disabled',true); $("input[name='Hb[1]']").attr('disabled',true);$("input[name='Hb[0]']").val(''); $("input[name='Hb[1]']").val('');}
+	else {$("input[name='Hb[0]']").attr('disabled',false).focus(); $("input[name='Hb[1]']").attr('disabled',false);}
+	});
+	$("input[name=triglyceride_not_done]").click(function(){
+	if (this.checked) {$("input[name=triglyceride]").attr('disabled',true); $("input[name=triglyceride]").val('');}
+	else {$("input[name=triglyceride]").attr('disabled',false).focus();}
+	});
+	$("input[name=uric_acid_not_done]").click(function(){
+	if (this.checked) {$("input[name='uric_acid[0]']").attr('disabled',true); $("input[name='uric_acid[1]']").attr('disabled',true);$("input[name='uric_acid[0]']").val(''); $("input[name='uric_acid[1]']").val('');}
+	else {$("input[name='uric_acid[0]']").attr('disabled',false).focus(); $("input[name='uric_acid[1]']").attr('disabled',false);}
+	});
+	$("input[name='Hb[0]'],input[name='serum_creatinine[0]'],input[name='uric_acid[0]']").keyup(function(e){
+        if (e.keyCode == 190 || e.keyCode == 110) {
+		var obj=$(this).attr('name').replace("[0]", "[1]");
+		var str=$(this).val();
+        str=str.replace(".", "");
+        $(this).val(str);
+		$("input[name='"+obj+"']").focus();
+		}
+    });
+})
+function checkYes(id,val,num) {
+	if (val==1) {$("#medication_txt"+id+",#note_txt"+id).show().focus(); if (num>0) $("#txt_"+id).show();}
+	else {$("#medication_txt"+id+",#note_txt"+id).hide().val('');$("#txt_"+id).hide();}
+}
+<?}?>
+function checkForm() {
+	// var status=0; //0 未填,1 有填
+	var ckField;
+	var finish = 0;
+	var status = new Array();
+	var msg = new Array();
+	var finish_stuts = new Array();
+	
+	ckField=$("input[name=re_hospitalization]:checked").val();
+	if (ckField=='' || typeof(ckField)=='undefined') {status.push(0);msg.push("Re-hospitalization is not selected!");} 
+	else if (ckField!="-1") {
+	if (ckField==1) {
+	ckField=$("input[name=re_hospitalization_yes]:checked").val();if (ckField=='' || typeof(ckField)=='undefined') {status.push(0);msg.push("Re-hospitalization planned is not selected!");} else status.push(1);
+	ckField=$("input[name=re_hospitalization_reason]:checked").val();if (ckField=='' || typeof(ckField)=='undefined') {status.push(0);msg.push("Reason is not selected!");} else status.push(1);
+	ckField=$("input[name=re_hospitalization_start]").val();if (ckField=='') {status.push(0);msg.push("Start date is not selected!");} else status.push(1);
+	ckField=$("input[name=re_hospitalization_end]").val();if (ckField=='') {status.push(0);msg.push("End date is not selected!");} else status.push(1);
+	}
+	else status.push(1);
+	ckField=$("input[name=revascularization]:checked").val();
+	if (ckField=='' || typeof(ckField)=='undefined') {status.push(0);msg.push("Repeat Revascularization is not selected!");} 
+	else if (ckField==1) {ckField=$("input[name=revascularization_yes]").val();if (ckField=='') {status.push(0);msg.push("Repeat date is not selected!");} else status.push(1);}
+	else status.push(1);
+	ckField=$("input[name=PCI]:checked").val();
+	if (ckField=='' || typeof(ckField)=='undefined') {status.push(0);msg.push("PCI is not selected!");} 
+	else if (ckField==1) {
+	ckField=$("input[name=PCI_yes_date]").val();if (ckField=='') {status.push(0);msg.push("PCI date is not selected!");} else status.push(1);
+	ckField=$("input[name=PCI_yes]:checked").val();if (ckField=='' || typeof(ckField)=='undefined') {status.push(0);msg.push("PCI planned is not selected!");} else status.push(1);
+	}
+	else status.push(1);
+	ckField=$("input[name=CABG]:checked").val();
+	if (ckField=='' || typeof(ckField)=='undefined') {status.push(0);msg.push("CABG is not selected!");} 
+	else if (ckField==1) {ckField=$("input[name=CABG_yes]").val();if (ckField=='') {status.push(0);msg.push("CABG date is not selected!");} else status.push(1);}
+	else status.push(1);
+	ckField=$("input[name=pacing]:checked").val();
+	if (ckField=='' || typeof(ckField)=='undefined') {status.push(0);msg.push("Biventricular Pacing is not selected!");} 
+	else if (ckField==1) {ckField=$("input[name=pacing_yes]").val();if (ckField=='') {status.push(0);msg.push("Biventricular Pacing date is not selected!");} else status.push(1);}
+	else status.push(1);
+	ckField=$("input[name=ICD]:checked").val();
+	if (ckField=='' || typeof(ckField)=='undefined') {status.push(0);msg.push("ICD is not selected!");} 
+	else if (ckField==1) {ckField=$("input[name=ICD_yes]").val();if (ckField=='') {status.push(0);msg.push("ICD date is not selected!");} else status.push(1);}
+	else status.push(1);
+	// ckField=$("input[name='Hb[0]']").val();
+	if (!$("input[name=Hb_not_done]").is(':checked')) if ($("input[name='Hb[0]']").val()=='' && $("input[name='Hb[1]']").val()=='') {status.push(0);msg.push("Hb is Unfilled!");} else status.push(1);
+	// if ($("input[name=sugar_AC]").val()=='') {status.push(0);msg.push("Sugar AC is Unfilled!");} else status.push(1);
+	// if ($("input[name=2h_PC_sugar]").val()=='') {status.push(0);msg.push("2h PC Sugar is Unfilled!");} else status.push(1);
+	// if ($("input[name=HbA1C]").val()=='') {status.push(0);msg.push("HbA1C is Unfilled!");} else status.push(1);
+	// if (!$("input[name=BUN_not_done]").is(':checked')) {
+	// if ($("input[name=BUN]").val()=='') {status.push(0);msg.push("BUN is Unfilled!");} else status.push(1);
+	// if ($("input[name='serum_creatinine[0]']").val()=='' && $("input[name='serum_creatinine[1]']").val()=='') {status.push(0);msg.push("Serum Creatinine is Unfilled!");} else status.push(1);
+	// }
+	// if ($("input[name=cholesterol]").val()=='') {status.push(0);msg.push("Total cholesterol is Unfilled!");} else status.push(1);
+	// if ($("input[name=cholesterol_HDL]").val()=='') {status.push(0);msg.push("HDL is Unfilled!");} else status.push(1);
+	// if ($("input[name=cholesterol_LDL]").val()=='') {status.push(0);msg.push("LDL is Unfilled!");} else status.push(1);
+	if (!$("input[name=triglyceride_not_done]").is(':checked')) if ($("input[name=triglyceride]").val()=='') {status.push(0);msg.push("Triglyceride is Unfilled!");} else status.push(1);
+	if (!$("input[name=uric_acid_not_done]").is(':checked')) if ($("input[name='uric_acid[0]']").val()=='' && $("input[name='uric_acid[1]']").val()=='') {status.push(0);msg.push("Uric acid is Unfilled!");} else status.push(1);
+	ckField=$("input[name=hypoglycemia]:checked").val();
+	if (ckField=='' || typeof(ckField)=='undefined') {status.push(0);msg.push("Hypoglycemia is not selected!");} 
+	else if (ckField==1) {
+	if ($("input[name=hypoglycemia_sugar_level]").val()=='') {status.push(0);msg.push("sugar level is Unfilled!");} else status.push(1);
+	ckField=$("input[name=hypoglycemia_yes]:checked").val();if (ckField=='' || typeof(ckField)=='undefined') {status.push(0);msg.push("Hypoglycemia is not selected!");} else status.push(1);
+	}
+	else status.push(1);
+	
+<?foreach ($medication_category as $key=>$rs) {?>
+	ckField=$("input:checked[name='medication[<?=$rs["id"];?>]']").val();
+	if (ckField=='' || typeof(ckField)=='undefined') {status.push(0);msg.push("<?=$rs["name"];?> is not selected!");} 
+	else if (ckField==1) {
+	ckField=$("input[name='medication_txt[<?=$rs["id"];?>]']").val(); if (ckField=='') {status.push(0);msg.push("<?=$rs["name"];?> is Unfilled!");} else status.push(1);
+	<?
+	$sub_medication = $webdb->getList("select * from _web_follow_medication_category where parent_id=".$rs["id"]." and is_show=1 order by sort");
+	if (count($sub_medication)>0) {
+	?>
+	ckField=$("input:checked[name='sub_medication[<?=$rs["id"];?>][]']").val(); if (ckField=='' || typeof(ckField)=='undefined') {status.push(0);msg.push("<?=$rs["name"];?> is not selected!");} else status.push(1);
+	<?
+	}
+	?>
+	}
+	else status.push(1);
+<?}?>
+	}
+
+	for (key in status) {
+		finish+=status[key];
+	}
+	if (finish==status.length) finish_stuts['status']=1;
+	else if (finish==0) finish_stuts['status']=0;
+	else finish_stuts['status']=-1;
+	finish_stuts['msg'] = msg.join("\n");
+	return finish_stuts;
+}
+//-->
+</script>
+<?php
+}
+require_once(ROOT_PATH.'Tpl/footer.html');
+?>

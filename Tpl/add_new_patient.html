@@ -1,0 +1,323 @@
+<?php 
+if(!defined('ROOT_PATH'))return;
+unset($_SESSION['patient_id']);
+if(isset($_GET['patient_id'])) $patient_id=(int)$_GET['patient_id'];
+if($_POST){
+	if ($ModifyPermission) {
+	$error=array();
+	if($_POST['initials']){
+		$fieldname=true;
+		foreach ($_POST['initials'] as $initial){
+			if(!empty($initial)) $fieldname=false;
+			/*if(empty($initial)){
+				$error['initials']='請輸入前三個中文名字英文拼音';
+			}elseif (!preg_match('/^[A-Za-z]+$/', $initial)){
+				$error['initials']='必須是前三個中文名字英文拼音';
+			}*/
+		}
+	}
+	if($fieldname){
+		$error['initials']='請輸入中文名字英文拼音';
+	}
+	if(empty($_POST['admission_date'])){
+		$error['admission_date']='請選擇Admission date';
+	}
+	if(empty($_POST['discharge_date'])){
+		$error['discharge_date']='請選擇Discharge date';
+	}
+	if(empty($error)){
+		$post=array();
+		$post['initials']=check_input(implode(" ", $_POST['initials']));
+		$post['admission_date']=date("Y-m-d",strtotime($_POST['admission_date']));
+		$post['discharge_date']=date("Y-m-d",strtotime($_POST['discharge_date']));
+		$post['ACS_24']=(int)$_POST['ACS_24'];
+		$post['2dm']=(int)$_POST['2dm'];
+		$post['20years']=(int)$_POST['20years'];
+		$post['consent_given']=(int)$_POST['consent_given'];
+		$post['ACS_comorbidity']=(int)$_POST['ACS_comorbidity'];
+		$post['study']=(int)$_POST['study'];
+		$class=new patient();
+		if ($_POST['patient_id']>0) {
+		$post['modify_date']=Date('Y-m-d H:i:s');
+		$post['modify_userid']=$_SESSION['customer_id'];
+		$class->edit($post,$_POST['patient_id']);
+			if ($post['ACS_24']==1&&$post['2dm']==1&&$post['20years']==1&&$post['consent_given']==1&&$post['ACS_comorbidity']==0&&$post['study']==0) {
+			alert("修改成功,下一步");
+			redirect("index.php?action=patient_1&patient_id=".$_POST['patient_id']);
+			} else {
+			alert("條件不符");
+			redirect("index.php?action=case_list".($_SESSION['p']>1?"&p=".$_SESSION['p']:""));
+			}
+			exit();
+		}
+		else {
+		$post['hospital_id']=$customerInfo['hospital_id'];
+		$post['create_date']=Date('Y-m-d H:i:s');
+		$post['create_userid']=$_SESSION['customer_id'];
+		$id=$class->add($post);
+		if($id){
+			if ($post['ACS_24']==1&&$post['2dm']==1&&$post['20years']==1&&$post['consent_given']==1&&$post['ACS_comorbidity']==0&&$post['study']==0) {
+			alert("添加成功,下一步");
+			redirect("index.php?action=patient_1&patient_id=".$id);
+			} else {
+			alert("條件不符");
+			redirect("index.php?action=case_list".($_SESSION['p']>1?"&p=".$_SESSION['p']:""));
+			}
+			exit();
+		}else{
+			alert("添加失敗");
+			redirect("index.php?action=add_new_patient");
+			exit();
+		}
+		}
+	}
+	}
+	// else if ($Penroll) redirect("index.php?action=patient_1");
+	// else redirect("index.php?action=case_list".($_SESSION['p']>1?"&p=".$_SESSION['p']:""));
+	// exit;
+}
+
+$data=array();
+if(isset($_POST['initials'])){
+	$data['initials']=$_POST['initials'];
+}else{
+	$data['initials']=array();
+}
+if(isset($_POST['admission_date'])){
+	$data['admission_date']=!empty($_POST['admission_date'])?date("Y-m-d",strtotime($_POST['admission_date'])):'';
+}else{
+	$data['admission_date']='';
+}
+if(isset($_POST['discharge_date'])){
+	$data['discharge_date']=!empty($_POST['discharge_date'])?date("Y-m-d",strtotime($_POST['discharge_date'])):'';
+}else{
+	$data['discharge_date']='';
+}
+if(isset($_POST['ACS_24'])){
+	$data['ACS_24']=(int)$_POST['ACS_24'];
+}else{
+	$data['ACS_24']='';
+}
+if(isset($_POST['2dm'])){
+	$data['2dm']=(int)$_POST['2dm'];
+}else{
+	$data['2dm']='';
+}
+if(isset($_POST['20years'])){
+	$data['20years']=(int)$_POST['20years'];
+}else{
+	$data['20years']='';
+}
+if(isset($_POST['consent_given'])){
+	$data['consent_given']=(int)$_POST['consent_given'];
+}else{
+	$data['consent_given']='';
+}
+if(isset($_POST['ACS_comorbidity'])){
+	$data['ACS_comorbidity']=(int)$_POST['ACS_comorbidity'];
+}else{
+	$data['ACS_comorbidity']='';
+}
+if(isset($_POST['study'])){
+	$data['study']=(int)$_POST['study'];
+}else{
+	$data['study']='';
+}
+
+require_once(ROOT_PATH.'Tpl/header.html');
+
+if ($patient_id) {
+$data=$patientInfo;
+$data['initials']=explode(" ",$patientInfo['initials']);
+}
+if ($noPermission && $patientInfo) include "permission_error.html";
+else {
+?>
+<form id="form1" name="form1" method="post" action="" >
+<?php echo $patient_id?"<input type='hidden' name='patient_id' value='".$patient_id."'>":"";?>
+<div class="mainPage">
+      <div class="mainPage_bg">
+        <div class="mainContent">
+          <div class="pageBox">
+            <!---->
+            <div class="formSetBox newPatientBox">
+              <h2 class="titleStyle_01"><span><?php echo $patient_id?"Modify":"Add New";?> Patient</span></h2>
+              <div class="formBox addPatientBox">
+                <div class="formSection no_01">
+                  <div class="formLabel">Patient No.:</div>
+                  <div class="formValue"><?php echo $patient_id?$patient_id:getNextPatientNo();?></div>
+                  <div class="clearfloat"></div>
+                </div>
+                <div class="formSection no_02">
+                  <div class="formLabel">Patient Initials:</div>
+                  <div class="formValue">
+                  <?php for($i=0;$i<3;$i++){?>
+                    <input type="text" name="initials[]" maxlength="1" value="<?php echo isset($data['initials'][$i])?$data['initials'][$i]:'';?>">
+                  <?php }?>
+                    <?php if(isset($error['initials'])){?><span style="color:red;"><?php echo $error['initials'];?></span><?php }else{?><span class="prompt">輸入前三個中文名字英文拼音</span><?php }?></div>
+                  <div class="clearfloat"></div>
+                </div>
+                <div class="formSection no_03">
+                  <div class="formLabel">Admission date:</div>
+                  <div class="formValue">
+                    <input type="text" name="admission_date" id="admission_date" class="datePicker" value="<?php echo $data['admission_date'];?>">
+                    <?php if(isset($error['admission_date'])){?><span style="margin-left:10px;color:red;"><?php echo $error['admission_date'];?></span><?php }?>
+                  </div>
+                  <div class="clearfloat"></div>
+                </div>
+                <div class="formSection no_04">
+                  <div class="formLabel">Discharge date:</div>
+                  <div class="formValue">
+                    <input type="text" name="discharge_date" id="discharge_date" class="datePicker" value="<?php echo $data['discharge_date']?>">
+                    <?php if(isset($error['discharge_date'])){?><span style="margin-left:10px;color:red;"><?php echo $error['discharge_date'];?></span><?php }?>
+                  </div>
+                  <div class="clearfloat"></div>
+                </div>
+                <div class="formSection no_05">
+                  <div class="formLabel">Length of stay:</div>
+                  <div class="formValue"><span class="textStyle_01" id="Length_of_stay"><?php echo getDateDifference($data['admission_date'],$data['discharge_date']);?></span>days</div>
+                  <div class="clearfloat"></div>
+                </div>
+              </div>
+            </div>
+            <!---->
+            <div class="formSetBox screeningBox">
+              <h2 class="titleStyle_01"><span>Screening (In/ Ex-clusion)</span></h2>
+              <h3 class="titleStyle_02">Inclusion Criteria</h3>
+              <div class="formBox inclusionCriteriaBox">
+                <div class="formSection no_01">
+                  <div class="formLabel">
+                    <label><input type="radio" name="ACS_24"  value="1" <?php echo $data['ACS_24']==1?"checked":""?>/>Yes </label>
+                    <label><input type="radio" name="ACS_24"  value="0"  <?php echo $data['ACS_24']=='0'?"checked":""?>/>No </label>
+                  </div>
+                  <div class="formValue">1. Patents admitted to the hospital with ACS within 24 hours</div>
+                  <div class="clearfloat"></div>
+                </div>
+                <div class="formSection no_02">
+                  <div class="formLabel">
+                    <label><input type="radio" name="2dm"  value="1"  <?php echo $data['2dm']==1?"checked":""?>/>Yes </label>
+                    <label><input type="radio" name="2dm"  value="0"  <?php echo $data['2dm']=='0'?"checked":""?>/>No </label>
+                  </div>
+                  <div class="formValue"> 2. history of type 2 diabetes or patents with newly diagnosed DM <span class="prompt">(WHO criteria: fasting glucose>126 mg/dL or 2-hour PC glucose>200 mg/dL, or HbA1C>6.5% )</span></div>
+                  <div class="clearfloat"></div>
+                </div>
+                <div class="formSection no_03">
+                  <div class="formLabel">
+                    <label><input type="radio" name="20years"  value="1"  <?php echo $data['20years']==1?"checked":""?>/>Yes </label>
+                    <label><input type="radio" name="20years"  value="0"  <?php echo $data['20years']=='0'?"checked":""?>/>No </label>
+                  </div>
+                  <div class="formValue"> 3. Patients>=20 years of age </div>
+                  <div class="clearfloat"></div>
+                </div>
+                <div class="formSection no_04">
+                  <div class="formLabel">
+                    <label><input type="radio" name="consent_given"  value="1"  <?php echo $data['consent_given']==1?"checked":""?>/>Yes </label>
+                    <label><input type="radio" name="consent_given"  value="0"  <?php echo $data['consent_given']=='0'?"checked":""?>/>No </label>
+                  </div>
+                  <div class="formValue"> 4. Written consent given </div>
+                  <div class="clearfloat"></div>
+                </div>
+              </div>
+              <!---->
+              <h3 class="titleStyle_02">Exclusion Criteria</h3>
+              <div class="formBox inclusionCriteriaBox">
+                <div class="formSection no_01">
+                  <div class="formLabel">
+                    <label><input type="radio" name="ACS_comorbidity"  value="1"  <?php echo $data['ACS_comorbidity']==1?"checked":""?>/>Yes </label>
+                    <label><input type="radio" name="ACS_comorbidity"  value="0"  <?php echo $data['ACS_comorbidity']=='0'?"checked":""?>/>No </label>
+                  </div>
+                  <div class="formValue">1. ACS accompanied by or precipitated by significant co-morbidity<span class="prompt">(e.g. motor vehicle accidents,trauma,severe gastrointestinal bleeding, peri-operative or peri-procedural myocardial infarction.)</span></div>
+                  <div class="clearfloat"></div>
+                </div>
+                <div class="formSection no_02">
+                  <div class="formLabel">
+                    <label><input type="radio" name="study"  value="1"  <?php echo $data['study']==1?"checked":""?>/>Yes </label>
+                    <label><input type="radio" name="study"  value="0"  <?php echo $data['study']=='0'?"checked":""?>/>No </label>
+                  </div>
+                  <div class="formValue"> 2. Partcipatng in an investgatonal drug study.</div>
+                  <div class="clearfloat"></div>
+                </div>
+              </div>
+              <!---->
+            </div>
+            <!---->
+            <div class="baseBtn functionBtnBox">
+			  <?php if (!$ModifyPermission) {?>
+			  <input class="nextStepBtn" type="button" id="next_step" value="" /> 
+			  <?} else {?>
+              <input class="storeBtn" type="submit" id="storeData" value="" />
+			  <?}?>
+              <input class="patientListBtn_02" type="button" id="patientList" value="" />
+              <div class="clearfloat"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+</form>
+<script type="text/javascript">
+<!--
+$(document).ready(function(){
+<?php if ($ModifyPermission) {?>
+	$(".datePicker" ).change(function(){
+		var start_date = Date.parse($('#admission_date').val().replace("-", "/"));
+		var end_date = Date.parse($('#discharge_date').val().replace("-", "/"));
+		
+		var ddate=end_date-start_date;
+		var days=Math.floor(ddate/(24*3600*1000));
+		days = (days>=0)?days:0;
+		$('#Length_of_stay').html(days);
+	});
+    $("input[name='initials[]']").keyup(function(e){
+        if (e.keyCode >= 65 && e.keyCode <= 90 || e.keyCode == 45 || e.keyCode == 95) {
+		var str=$(this).val();
+        str=str.toUpperCase();
+        $(this).val(str);
+		}
+    });
+	$("input[name='initials[]']").focus(function(){
+        this.select();
+	});
+	$('#storeData').click(function(){
+		var obj;
+		obj = $("input[name='initials[]']");
+		var initials=false;
+		obj.each(function() {
+			if($(this).val()!='') initials=true;
+		});
+		if (!initials) {alert("請輸入Patient Initials！");return false;}
+		obj = $("input[name='admission_date']");
+		if (obj.val()=='') {alert("請選擇Admission date！");obj.focus();return false;}
+		obj = $("input[name='discharge_date']");
+		if (obj.val()=='') {alert("請選擇Discharge date！");obj.focus();return false;}
+		obj = $('#Length_of_stay').html();
+		if (obj==0) {alert("日期有誤！");return false;}
+		var item=new Array('ACS_24','2dm','20years','consent_given','ACS_comorbidity','study');
+		for(x in item){
+			var re = $("input[name='"+item[x]+"']:checked").val();
+			
+			if(typeof(re)=='undefined' || re==''){
+				alert("請補全資料再進行提交！");
+				$("input[name='"+item[x]+"']").focus();
+				return false;
+			}
+		}
+	});
+	$(".patientListBtn, #patientList").click(function(){
+		if(confirm("確定不儲存離開嗎?")) location.href="index.php?action=case_list<?=($_SESSION['p']>1?"&p=".$_SESSION['p']:"");?>";
+	})
+<?} else {?>
+	$(".patientListBtn, #patientList").click(function(){
+		location.href="index.php?action=case_list<?=($_SESSION['p']>1?"&p=".$_SESSION['p']:"");?>";
+	})
+	$("#next_step").click(function(){
+		location.href="index.php?action=patient_1&patient_id=<?=$patient_id;?>";
+	})
+<?}?>
+})
+//-->
+</script>
+<?php
+}
+require_once(ROOT_PATH.'Tpl/footer.html');
+?>

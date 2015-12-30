@@ -1,0 +1,33 @@
+.white {
+	FONT-WEIGHT: bold; FONT-SIZE: 13px; COLOR: #ffffff
+}
+.bg1 {
+	BACKGROUND-POSITION: 50% top; BACKGROUND-IMAGE: url(images/main_r6_c11.gif); BACKGROUND-REPEAT: repeat-x
+}
+BODY {
+	MARGIN: 0px
+}
+A:link {
+	COLOR: #000000; TEXT-DECORATION: none
+}
+A:visited {
+	COLOR: #000000; TEXT-DECORATION: none
+}
+A:hover {
+	COLOR: #ff0000
+}
+.inputsearch {
+	BORDER-RIGHT: #f0f0f0 1px inset; BORDER-TOP: #f0f0f0 1px inset; BORDER-LEFT: #f0f0f0 1px inset; WIDTH: 120px; BORDER-BOTTOM: #f0f0f0 1px inset; HEIGHT: 18px
+}
+A:active {
+	COLOR: #00cc00; TEXT-DECORATION: underline
+}
+TD {
+	FONT-SIZE: 13px
+}
+.num {
+	FONT-WEIGHT: bold; WIDTH: 15px; COLOR: #ffffff; BACKGROUND-COLOR: #999999; TEXT-ALIGN: center
+}
+.shuzi {
+	FONT-SIZE: 10px; COLOR: #ff0000
+}

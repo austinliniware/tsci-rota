@@ -1,0 +1,58 @@
+<?php 
+if(!defined('ROOT_PATH'))return;
+$actionkey=12;
+if($_POST){
+	if ($ModifyPermission) {
+	// $baseinfo=array();
+	// $status=explode(",",$patientInfo['finish_status']);
+	// $status=array_filter($status);
+	// if (empty($status)) for($i=0;$i<$actionkey;$i++) $status[$i]=0;
+	// $status[$actionkey]=$_POST['finish'];
+	// $baseinfo['finish_status']=join(",",$status);
+	// $lockstatus=explode(",",$patientInfo['lock_status']);
+	// $lockstatus=array_filter($lockstatus);
+	// if (empty($lockstatus)) for($i=0;$i<$actionkey;$i++) $lockstatus[$i]=0;
+	// if (check_number($_POST['signature'])) $lockstatus[$actionkey]=1;
+	// $baseinfo['lock_status']=join(",",$lockstatus);
+	// $class=new patient();
+	// $class->edit($baseinfo, $_SESSION['patient_id']);
+	include_once "baseinfo.php";
+
+	if ($_POST['finish']!=0) {
+	include_once "track_post.php";
+	$class=new month_follow_up();
+	if(isset($_POST['id'])){
+		$class->edit($post, $_POST['id']);
+	}else{
+		$post['patient_id']=$_SESSION['patient_id'];
+		$post['user_id']=$_SESSION['customer_id'];
+		$post['ntype']=3;
+		$post['create_date']=Date('Y-m-d H:i:s');
+		$id=$class->add($post);
+	}
+	}
+	}
+	if ($_POST['do']=="next") redirect("index.php?action=track_5");
+	elseif ($_POST['do']=="prev") redirect("index.php?action=track_3");
+	else redirect("index.php?action=case_list".($_SESSION['p']>1?"&p=".$_SESSION['p']:""));
+	exit;
+}
+
+$data=array();
+// $specialData['multi']  = array("");
+$specialData['dcimal']  = array("Hb","serum_creatinine","uric_acid");
+if($_SESSION['patient_id']){
+	$mfuClass=new month_follow_up();
+	$mfuInfo=$mfuClass->getMfu((int)$_SESSION['patient_id'],3);
+	$data=getProcessedData($mfuClass,$mfuInfo,$specialData);
+	$data['medication']=unserialize($mfuInfo['medication_id']);
+	$data['medication_txt']=unserialize($mfuInfo['medication_txt']);
+	$data['sub_medication']=unserialize($mfuInfo['sub_medication_id']);
+}
+
+require_once(ROOT_PATH.'Tpl/header.html');
+
+if ($noPermission) include "permission_error.html";
+else {$subtitle="2 year";include_once "track_form.php";}
+require_once(ROOT_PATH.'Tpl/footer.html');
+?>

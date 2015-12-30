@@ -1,0 +1,309 @@
+<?php 
+if(!defined('ROOT_PATH'))return;
+$actionkey=1;
+if($_POST){
+	if ($ModifyPermission) {
+	// $baseinfo=array();
+	// $status=explode(",",$patientInfo['finish_status']);
+	// $empty_status=array_filter($status);
+	// if (empty($empty_status)) for($i=0;$i<$actionkey;$i++) $status[$i]=0;
+	// $status[$actionkey]=$_POST['finish'];
+	// $baseinfo['finish_status']=join(",",$status);
+	// $class=new patient();
+	// $class->edit($baseinfo, $_SESSION['patient_id']);
+	include_once "baseinfo.php";
+
+	if ($_POST['finish']!=0) {
+	$post=array();
+	//$post['symptom_onset']=(trim($_POST['symptom_onset']['date'])!=""?date("Y-m-d H:i",strtotime($_POST['symptom_onset']['date'].' '.$_POST['symptom_onset']['h'].':'.$_POST['symptom_onset']['m'])):"");
+	//$post['TFAhospital']=check_number($_POST['TFAhospital']);
+	
+  
+  $post['p_procedure']=(is_array($_POST['p_procedure'])?check_input(implode(",", $_POST['p_procedure'])):"");
+  $post['equipment']=(is_array($_POST['equipment'])?check_input(implode(",", $_POST['equipment'])):"");
+  $post['pressurewire']=(is_array($_POST['pressurewire'])?check_input(implode(",", $_POST['pressurewire'])):"");
+  $post['mmhg1']=check_input($_POST['mmhg1']);
+	$post['mmhg2']=check_input($_POST['mmhg2']);
+	$post['mmhg3']=check_input($_POST['mmhg3']);
+	$post['pdpa1']=check_number($_POST['pdpa1']);
+  $post['pdpa2']=check_input($_POST['pdpa2']);
+  $post['pdpa3']=check_input($_POST['pdpa3']);
+	$post['drift_observed']=check_input($_POST['drift_observed']);
+	$post['reversed_gradient']=check_input($_POST['reversed_gradient']);
+	$post['equipment_s']=check_input($_POST['equipment_s']);
+ 
+  $post['userid']=$_SESSION['customer_id'];
+  //$post['unstable_angina']=($_POST['angina_category']=='Unstable angina'?$_POST['unstable_angina']:"");
+   
+	
+	$class=new p_procedure();
+if(isset($_POST['id'])){
+		$class->edit($post, $_POST['id']);
+	}else{
+		$post['patient_id']=$_SESSION['patient_id'];
+		$post['user_id']=$_SESSION['customer_id'];
+   // print_r($post);
+   // exit;
+		$id=$class->add($post);
+	}
+	}
+	}
+	if ($_POST['do']=="next") redirect("index.php?action=patient_3");
+	elseif ($_POST['do']=="prev") redirect("index.php?action=patient_1");
+	else redirect("index.php?action=case_list".($_SESSION['p']>1?"&p=".$_SESSION['p']:""));
+	exit;
+}
+
+$data=array();
+// $specialData['multi']  = array();
+// $specialData['dcimal']  = array();
+//echo $_SESSION['patient_id'];
+$specialData['multi']  = array("p_procedure","equipment","pressurewire");
+if($_SESSION['patient_id']){
+	$p_procedureClass=new p_procedure();
+	$p_procedureInfo=$p_procedureClass->getp_procedure((int)$_SESSION['patient_id']);
+  
+	$data=getProcessedData($p_procedureClass,$p_procedureInfo,$specialData);
+}
+ // print_r($data);
+ // print_r($data['p_procedure']);
+require_once(ROOT_PATH.'Tpl/header.html');
+
+if ($noPermission) include "permission_error.html";
+else {
+?>
+<form id="form1" name="form1" method="post" action="" >
+<input type="hidden" name="do" value="next" />
+<input type="hidden" name="finish" value="0" />
+<?if ($p_procedureInfo['id']>0) {?><input type="hidden" name="id" value="<?=$p_procedureInfo['id']?>" /><?}?>
+<div class="mainPage">
+      <div class="mainPage_bg">
+        <div class="mainContent">
+          <div class="pageBox">
+            <?//php require_once(ROOT_PATH.'Tpl/patient_header.html');?>
+            <div class="formSetBox">
+            <h2 class="titleStyle_01"><span>Procedure</span></h2>
+            <div class="formBox productBox">
+              <div class="formSection no_01">
+                <div class="formLabel">&nbsp;</div>
+                <div class="formValue">
+                  <label class="no_01">
+                    <input type="checkbox" id="p_procedure" name="p_procedure[]" value="Diagnostic" <?php echo in_array($procedure[1],$data['p_procedure'])?"checked":""?>>
+                    Diagnostic</label>
+                  <label class="no_02">
+                    <input type="checkbox" id="p_procedure" name="p_procedure[]" value="PCI" <?php echo in_array($procedure[2],$data['p_procedure'])?"checked":""?>>
+                    PCI</label>
+                </div>
+                <div class="clearfloat"></div>
+              </div>
+              <!---->
+              <div class="formSection no_02">
+                <div class="formLabel">&nbsp;</div>
+                <div class="formValue">
+                  <label class="no_01">
+                    <input type="checkbox" id="p_procedure" name="p_procedure[]" value="Radial" <?php echo in_array($procedure[3],$data['p_procedure'])?"checked":""?>>
+                    Radial</label>
+                  <label class="no_02">
+                    <input type="checkbox" id="p_procedure" name="p_procedure[]" value="Femoral" <?php echo in_array($procedure[4],$data['p_procedure'])?"checked":""?>>
+                    Femoral</label>
+                  <label class="no_03">
+                    <input type="checkbox" id="p_procedure" name="p_procedure[]" value="Brachial" <?php echo in_array($procedure[5],$data['p_procedure'])?"checked":""?>>
+                    Brachial</label>
+                </div>
+                <div class="clearfloat"></div>
+              </div>
+              <!---->
+              <div class="formSection no_03">
+                <div class="formLabel">&nbsp;</div>
+                <div class="formValue">
+                  <label class="no_01">
+                   <input type="checkbox" id="p_procedure" name="p_procedure[]" value="Right" <?php echo in_array($procedure[6],$data['p_procedure'])?"checked":""?>>
+                    Right</label>
+                  <label class="no_02">
+                    <input type="checkbox" id="p_procedure" name="p_procedure[]" value="Left" <?php echo in_array($procedure[7],$data['p_procedure'])?"checked":""?>>
+                    Left</label>
+                </div>
+                <div class="clearfloat"></div>
+              </div>
+              <!----> 
+            </div>
+            <h2 class="titleStyle_01"><span>EQ value</span></h2>
+            <div class="formBox">
+              <div class="formSection no_01">
+                <div class="formLabel">At the start of the case:</div>
+                <div class="formValue formMedium ">
+                <label class="no_01">
+                  <input type="text" name="mmhg1" id="mmhg1" value="<?php echo $data['mmhg1'];?>">
+                  mmHg (1<span class="sup">th</span> EQ);</label>
+                <label class="no_02">
+                  <input type="text" name="mmhg2" id="mmhg2" value="<?php echo $data['mmhg2'];?>">
+                  mmHg (2<span class="sup">nd</span> EQ) ;</label>
+                <label class="no_03">
+                  <input type="text" name="mmhg3" id="mmhg3" value="<?php echo $data['mmhg3'];?>">
+                  mmHg (3<span class="sup">rd</span> EQ)
+                  </div>
+                </label>
+                <div class="clearfloat"></div>
+              </div>
+              <!---->
+              <div class="formSection no_02">
+                <div class="formLabel">Verified: </div>
+                <div class="formValue formMedium ">
+                Pd/Pa
+                <label class="no_01">
+                  <input type="text" name="pdpa1" id="pdpa1" value="<?php echo $data['pdpa1'];?>">
+                  ;(1<span class="sup">th</span> EQ);</label>
+                <label class="no_02">
+                  <input type="text" name="pdpa2" id="pdpa2" value="<?php echo $data['pdpa2'];?>">
+                  (2<span class="sup">nd</span> EQ) ;</label>
+                <label class="no_03">
+                  <input type="text" name="pdpa3" id="pdpa3" value="<?php echo $data['pdpa3'];?>">
+                  (3<span class="sup">rd</span> EQ);
+                  </div>
+                </label>
+                <div class="clearfloat"></div>
+              </div>
+              <!---->
+              <div class="formSection no_03">
+                <div class="formLabel">Was there any Drift observed? </div>
+                <div class="formValue">
+                  <label class="no_01">
+                  <input type="radio" name="drift_observed" id="drift_observed1" value="Yes" <?php echo $data['drift_observed']=='Yes'?"checked":'';?>>
+                    Yes</label>
+                  <label class="no_02">
+                    <input type="radio" name="drift_observed" id="drift_observed2" value="No" <?php echo $data['drift_observed']=='No'?"checked":'';?>>
+                    No</label>
+                  </label>
+                </div>
+                <div class="clearfloat"></div>
+              </div>
+              <!---->
+              <div class="formSection no_04">
+                <div class="formLabel">Reversed gradient </div>
+                <div class="formValue">
+                  <label class="no_01">
+                   <input type="radio" name="reversed_gradient" id="reversed_gradient1" value="Yes" <?php echo $data['reversed_gradient']=='Yes'?"checked":'';?>>
+                    Yes&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LAD,LCX,RCA</label>
+                  <label class="no_02">
+                    <input type="radio" name="reversed_gradient" id="reversed_gradient2" value="No" <?php echo $data['reversed_gradient']=='No'?"checked":'';?>>
+                    No</label>
+                  </label>
+                </div>
+                <div class="clearfloat"></div>
+              </div>
+              <!----> 
+            </div>
+            <h2 class="titleStyle_01"><span>FFR measurement</span></h2>
+            <div class="formBox">
+              <div class="formSection no_01">
+                <div class="formLabel">What was the Equipment be used?</div>
+                <div class="formValue formMedium ">
+                  <label class="no_01">
+                    <input type="checkbox" id="equipment" name="equipment[]" value="Analyzer Xpress" <?php echo in_array($equipment[1],$data['equipment'])?"checked":""?>>
+                    Analyzer Xpress </label>
+                  <label class="no_02">
+                    <input type="checkbox" id="equipment" name="equipment[]" value="Ilumien" <?php echo in_array($equipment[2],$data['equipment'])?"checked":""?>>
+                    Ilumien </label>
+                  <label class="no_03">
+                    <input type="checkbox" id="equipment" name="equipment[]" value="Quantien" <?php echo in_array($equipment[3],$data['equipment'])?"checked":""?>>
+                    Quantien </label>
+                    
+                  <label class="no_04">
+                    <input type="checkbox" id="equipment" name="equipment[]" value="Integrated" <?php echo in_array($equipment[4],$data['equipment'])?"checked":""?>>
+                    Integrated FFR system with </label>
+                  <label class="no_05">
+                  <br>
+                    <input type="radio" name="equipment_s" id="equipment_s1" value="Siemens" <?php echo $data['equipment_s']=='Siemens'?"checked":'';?>>
+                    Siemens</label>
+                  <label class="no_06">
+                    <input type="radio" name="equipment_s" id="equipment_s2" value="Philips" <?php echo $data['equipment_s']=='Philips'?"checked":'';?>>
+                    Philips</label>
+                  <label class="no_07">
+                    <input type="radio" name="equipment_s" id="equipment_s3" value="GE" <?php echo $data['equipment_s']=='GE'?"checked":'';?>>
+                    GE</label>
+                </div>
+                <div class="clearfloat"></div>
+              </div>
+              <!---->
+              <div class="formSection no_02">
+                <div class="formLabel">What was the PressureWire be used?</div>
+                <div class="formValue formMedium ">
+                  <label class="no_01">
+                    <input type="checkbox" id="pressurewire" name="pressurewire[]" value="Certus" <?php echo in_array($pressurewire[1],$data['pressurewire'])?"checked":""?>>
+                    Certus</label>
+                  <label class="no_02">
+                    <input type="checkbox" id="pressurewire" name="pressurewire[]" value="Aeris" <?php echo in_array($pressurewire[2],$data['pressurewire'])?"checked":""?>>
+                    Aeris</label>
+                </div>
+                <div class="clearfloat"></div>
+                </div>
+              </div>
+            </div>
+            <?php require_once(ROOT_PATH.'Tpl/footer_button.html');?>
+          </div>
+        </div>
+      </div>
+</div>
+</form>
+<script type="text/javascript">
+<!--
+<?if ($ModifyPermission) {?>
+/*$(document).ready(function(){
+	if ($("input[name=TFAhospital]:checked").val()!="1") $("select[name=site_number],input[name=non_study_hospital]").attr('disabled',true);
+	$("input[name=TFAhospital]").click(function(){
+		if (this.value==1) $("select[name=site_number],input[name=non_study_hospital]").attr('disabled',false);
+		else $("select[name=site_number],input[name=non_study_hospital]").val('').attr('disabled',true);
+	});
+	if ($("input[name=angina_category]:checked").val()!="Unstable angina") $("input[name=unstable_angina]").attr('disabled',true);
+	$("input[name=angina_category]").click(function(){
+		var angina_category=$("input[name=angina_category]:checked").val();
+		if(angina_category=='Unstable angina'){
+			$("input[name=unstable_angina]").attr('disabled',false);
+		}else{
+			$("input[name=unstable_angina]").attr('disabled',true);
+			$("input[name=unstable_angina]").each(function(key, val){
+				this.checked=false; 
+			});
+		}
+	});
+})*/
+<?}?>
+function checkForm() {
+	// var status=0; //0 未填,1 有填
+	var ckField;
+	var finish = 0;
+	var status = new Array();
+	var msg = new Array();
+	var finish_stuts = new Array();
+	/*
+	ckField=$("#p_procedure").val();
+	if (ckField=='') {status.push(0);msg.push("procedure is Unfilled!");} else status.push(1);
+	ckField=$("input[name='TFAhospital']:checked").val();
+    if (ckField=='' || typeof(ckField)=="undefined") {status.push(0);msg.push("Transferred from another hospital is not selected!");} 
+	else if (ckField==1) {if ($("select[name=site_number]").val()=="" && $("input[name=non_study_hospital]").val()=="") {status.push(0);msg.push("Hospital is Unfilled!");} else status.push(1);}
+	else status.push(1);
+	ckField=$("input[name=angina_category]:checked").val();
+	if (ckField=='' || typeof(ckField)=='undefined') {status.push(0);msg.push("Angina Category is not selected!");} 
+	else if (ckField=="Unstable angina") {ckField=$("input[name=unstable_angina]:checked").val();if (ckField=='' || typeof(ckField)=='undefined') {status.push(0);msg.push("Unstable angina is not selected!");} else status.push(1);}
+	else status.push(1);
+  */
+	 ckField=$("input[name=mmhg1]").val();
+	 if (ckField=='') {status.push(0);msg.push("mmhg1 is Unfilled!");} else status.push(1);
+	 ckField=$("input[name=mmhg2]").val();
+	 if (ckField=='') {status.push(0);msg.push("mmhg2 is Unfilled!");} else status.push(1);
+	
+	for (key in status) {
+		finish+=status[key];
+	}
+	if (finish==status.length) finish_stuts['status']=1;
+	else if (finish==0) finish_stuts['status']=0;
+	else finish_stuts['status']=-1;
+	finish_stuts['msg'] = msg.join("\n");
+	return finish_stuts;
+}
+//-->
+</script>
+<?php
+}
+require_once(ROOT_PATH.'Tpl/footer.html');
+?>

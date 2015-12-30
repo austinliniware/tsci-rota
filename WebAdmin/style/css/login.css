@@ -1,0 +1,162 @@
+@charset "utf-8";
+/*AWEN RESET */
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, font, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	outline: 0;
+	font-size: 100%;	
+	background: transparent;
+}
+
+a{ text-decoration:none; cursor:pointer;}
+input{ cursor:pointer;}
+object{display:block;margin:0 auto;}
+ol,ul,li{ list-style:none;}
+body { line-height: 1;}
+blockquote, q {	quotes: none;}
+blockquote:before, blockquote:after,
+q:before, q:after {	content: ''; content: none;}
+:focus {outline: 0;}
+ins {text-decoration: none;}
+del {text-decoration: line-through;}
+table {	border-collapse: collapse;	border-spacing: 0;}
+/*AWEN RESET */
+
+/*Global reset */
+body{font-family:Arial,"新細明體"; font-size:12px; line-height:20px;  background-color:#efefef; color:#242424;}
+.outW{width:1024px;}
+.inLeftW{width:222px;}
+.inRightW{width:788px;}
+.box{ margin:0px auto;}
+.clearfloat{ clear:both;}
+.mianBgPic{ background:url(../images/00_06.jpg) repeat-y; }
+.mianContentBox{ margin-left:10px; margin-right:9px;}
+.syBottomPic{ background:url(../images/bottompic_05.jpg) left no-repeat; height:240px;}
+.subPageCotBg{ background:#5f4317 url(../images/1_04.jpg) top repeat-x;}
+.subPageBotBg{ background:url(../images/1_09.jpg) bottom center no-repeat;}
+
+#mianbox{ width:1024px; height:247px; background:url(../images/88_06.png) no-repeat;}
+
+.copyRightBox{color:#a06e28; font-size:11px; height:46px;}
+.magLeft16{ margin-left:16px; }
+.iware{ float:right; margin-right:15px; color:#6a441b;}
+.iware a{color:#6a441b;}
+.iware a:hover{ color:#a06e28;}
+
+.leftBox{float:left; width:203px; background:url(../images/1_05.jpg) top left no-repeat; min-height:322px;}
+.rightBox{float:left; width:729px; margin-top:43px;}
+
+/*Local reset */
+.titleys01{ font-size:13px; color:#2e302e;}
+.titleys02{ font-size:13px; color:#9e9e9e;}
+.titlebox{ background:url(../images/ii_12.png) left center no-repeat; padding-left:15px; height:20px; line-height:20px; margin-top:10px;}
+.contentbox{width:201px; float:right; margin-right:225px; margin-top:50px;}
+.inputbox input{ display:block; width:191px; height:21px; margin:0px; border:none; background:url(../images/bb_08.png) no-repeat; padding:0px 5px; font-weight:bold; color:#437d35;}
+.inputbox02 input{ display:block; width:112px; height:21px; margin:0px; border:none; background:url(../images/bt_08.png) no-repeat; padding:0px 5px; font-weight:bold; color:#437d35; float:left;}
+.inputbox02 span{ margin-left:6px;}
+.inputbox03 input{ display:block; width:69px; height:25px; margin:0px; border:none; background:url(../images/btn_11.png) no-repeat; padding:0px; margin-top:10px; float:left;}
+.inputbox04 input{ display:block; width:69px; height:25px; margin:0px; border:none; background:url(../images/btn_13.png) no-repeat; padding:0px; margin-top:10px; float:left; margin-left:10px;}
+
+
+.syProTitleBg{ background:url(../images/0png_03.png) top left no-repeat;}
+.proSmall{ width:108px; float:left; margin-left:20px;}
+.proSmall span{ display:block; background:url(../images/0png_05.png) no-repeat; height:146px;}
+.proSmall span img{ margin-left:3px; margin-top:3px;}
+.proSmall a{ display:block; width:108px; height:20px; line-height:20px; background:url(../images/0png_15.png) center; color:#000; font-size:11px; text-align:center; margin-top:2px;}
+.proSmall a:hover{ color:#c07e17;}
+.syMore{ float:left; width:48px;}
+.syMore a{ color:#000; display:block; width:48px; height:20px; line-height:20px; margin-top:135px; text-align:center;}
+.syMore a:hover{color:#c07e17;}
+.syButn{ width:25px; height:57px; float:left; margin-left:18px; margin-top:50px;}
+.syButn a{ display:block; width:25px; height:57px; background:url(../images/0png_08.png) center no-repeat;}
+.syButn a:hover{ background:url(../images/0jt_08.png);}
+.syMore02{ margin-top:6px;}
+.syMore02 a{ width:49px; height:18px; display:block; background:url(../images/0more_13.png) no-repeat; line-height:18px; text-align:center; color:#000; float:right;}
+.syMore02 a:hover{color:#c07e17;}
+
+
+.rightBoxTopPic{ background:url(../images/right_09.jpg) no-repeat; height:32px;}
+.rightBoxCenterBgPic{ background:url(../images/00.png) left repeat-y;}
+.rightMainBox{ margin-left:18px; background-color:#FFF;}
+.rightContentBianJu{ padding:15px 16px; min-height:300px;}
+.rightMainBox p{ color:#333; line-height:20px;}
+.contentTitle{ padding-top:15px;}
+.mapTitle{ color:#f9c853; padding-left:18px; line-height:11px;}
+
+.logoMenuBox{ background:url(../images/1_03.jpg) no-repeat; height:319px;}
+.logoMenuBox ul{ height:17px; padding-top:22px; margin-left:440px;}
+.logoMenuBox li{ float:left; margin:0px 8px;}
+.menuFenGe{ margin:0px 9px; text-align:center;}
+.leftNavTitle{ padding-top:41px; padding-left:101px;}
+
+.leftNavBox{ margin:20px 15px;}
+.leftNavBox a{ display:block; text-align:right; padding:2px 3px; color:#d7b471;}
+.leftNavBox a:hover{ border:solid 1px #6f4e1b; color:#FFF; background:url(../images/leftnavbg_11.png);}
+
+.leftSubNavBox{ background-color:#FFF; padding:5px 0px; margin-bottom:10px;}
+.leftSubNavBox a{ display:block; height:15px; line-height:15px; text-align:right; color:#333333; padding:3px;}
+.leftSubNavBox a:hover{ background-color:#5f4317; background-image:none; color:#FFF; border:none;}
+
+.leftBoxBgs{background:#3ea6d9 url(../images/center_19.jpg) bottom no-repeat;}
+.leftBoxTopPic{ background:url(../images/center_15.jpg) center top no-repeat; min-height:500px; padding-top:85px;}
+.rightBoxBgPic{ background:url(../images/center_20.jpg) bottom repeat-x;}
+
+.contactTable table{ margin:0px auto; color:#333333;}
+.contactTable table,.contactTable table td{ border-collapse:collapse; border:none;}
+.contactTable table td{ padding:5px 1px;}
+.redDot{ color:#F00;}
+.magleft05{ margin-left:10px;}
+.yanZhengMa{ width:80px;}
+.yanZhengPic{ border:none; background:url(../images/contact_12.jpg) no-repeat; width:60px; height:22px;}
+.rightButn1{ text-align:center; width:49px; height:18px; background:url(../images/CONTACT00_03.jpg) no-repeat; border:none;}
+.rightButn2{ text-align:center; width:79px; height:18px; background:url(../images/CONTACT00_05.jpg) no-repeat; border:none;}
+.rightButn3 a{ display:block; text-align:center; width:79px; height:18px; background:url(../images/CONTACT00_05.jpg) no-repeat; color:#333333; line-height:18px; font-size:12px;}
+.rightButn3 a:hover{ color:#cc9966;}
+
+.proPicList{ width:140px; float:left; margin:15px 48px;}
+.proPicList a{ display:block; width:140px; height:186px; background:url(../images/pic003_03.jpg) no-repeat;}
+.proPicList a img{ margin-left:8px; margin-top:8px;}
+.proPicList a:hover{ background:url(../images/pro_19.jpg) no-repeat;}
+.proPicList span{ display:block; width:140px; height:20px; line-height:20px; text-align:center; color:#333333;}
+
+.fenYeBox a{ display:block; width:21px; height:18px; text-align:center; line-height:18px; color:#333333; background:url(../images/feny_23.jpg) no-repeat; float:right; margin:20px 3px;}
+.fenYeBox a:hover{ background:url(../images/fy_25.jpg) no-repeat;}
+
+.bookDetailPic{ width:253px; height:354px; background:url(../images/details_19.jpg) no-repeat; float:left;}
+.bookDetailPic img{ margin-top:2px;}
+.bookDetailContent{ width:421px; height:354px; float:left; background:url(../images/details_21.jpg) no-repeat;}
+.bookDetailTable table,.bookDetailTable td{ border-collapse:collapse;}
+.bookDetailTable table{ margin-left:10px;}
+.bookDetailTable table td{ padding:5px; color:#333333; font-size:13px;}
+.bookBeiZhu{ color:#999;}
+
+.leftS{ background:#d6bd86 url(../images/yejiao_21.png) left top no-repeat; }
+.leftX{ background:url(../images/yejiao_27.png) left bottom no-repeat; }
+.rightS{ background:url(../images/yejiao_23.png) right top no-repeat; }
+.rightX{ background:url(../images/yejiao_28.png) right bottom no-repeat; }
+.proSmallPics{height:105px; border:solid 1px #be885a; overflow:hidden; }
+
+.proSmallPics a{ display:block; width:52px; height:72px; margin:16px 10px; float:left;}
+.proSmallPics a:hover{ background-color:#666;}
+.orderNumber input{ width:100px; color:#c17a08; text-align:center;}
+
+.orderTable td{ text-align:center; border:solid 1px #CCC;}
+.orderTableTitle{ font-weight:bold; color:#e4920e;}
+.setBgSe{ background-color:#f5f5f5;}
+
+.leftMag10{ margin-left:10px;}
+.syTopMenuBox{ height:60px; background:url(../images/sytop_03.jpg) center no-repeat;}
+.syTopMenuBox ul{ height:17px; padding-top:22px; margin-left:440px;}
+.syTopMenuBox li{ float:left; margin:0px 8px;}
+
+.buChongWb{font-size:12px; line-height:18px; color:#666; margin:30px 0px; padding-right:13px;}
+

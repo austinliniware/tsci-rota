@@ -1,0 +1,298 @@
+<?php 
+if(!defined('ROOT_PATH'))return;
+$actionkey=4;
+if($_POST){
+	if ($ModifyPermission) {
+	// $baseinfo=array();
+	// $status=explode(",",$patientInfo['finish_status']);
+	// $status=array_filter($status);
+	// if (empty($status)) for($i=0;$i<$actionkey;$i++) $status[$i]=0;
+	// $status[$actionkey]=$_POST['finish'];
+	// $baseinfo['finish_status']=join(",",$status);
+	// $class=new patient();
+	// $class->edit($baseinfo, $_SESSION['patient_id']);
+	include_once "baseinfo.php";
+
+	if ($_POST['finish']!=0) {
+	$post=array();
+	$post['pre_pci']=(is_array($_POST['pre_pci'])?check_input(implode(",", $_POST['pre_pci'])):"");
+  
+  
+  $post['ntg']=check_input($_POST['ntg']);
+	$post['isoket']=check_input($_POST['isoket']);
+  
+  $post['segno']=check_input($_POST['segno']);
+  $post['qca']=check_input($_POST['qca']);
+  $post['r_pdpa']=check_input($_POST['r_pdpa']);
+  $post['dosage_iv']=check_input($_POST['dosage_iv']);
+  $post['hy_pdpa']=check_input($_POST['hy_pdpa']);
+  $post['dos_r1']=check_input($_POST['dos_r1']);
+  $post['hyp_r1']=check_input($_POST['hyp_r1']);
+  $post['av_r1']=check_input($_POST['av_r1']);
+  $post['sin_r1']=check_input($_POST['sin_r1']);
+  $post['other_r1']=check_input($_POST['other_r1']);
+  $post['dos_r2']=check_input($_POST['dos_r2']);
+  $post['hyp_r2']=check_input($_POST['hyp_r2']);
+  $post['av_r2']=check_input($_POST['av_r2']);
+  $post['sin_r2']=check_input($_POST['sin_r2']);
+  $post['other_r2']=check_input($_POST['other_r2']);
+  $post['dos_r3']=check_input($_POST['dos_r3']);
+  $post['hyp_r3']=check_input($_POST['hyp_r3']);
+  $post['av_r3']=check_input($_POST['av_r3']);
+  $post['sin_r3']=check_input($_POST['sin_r3']);
+  $post['other_r3']=check_input($_POST['other_r3']);
+  $post['dos_r4']=check_input($_POST['dos_r4']);
+  $post['hyp_r4']=check_input($_POST['hyp_r4']);
+  $post['av_r4']=check_input($_POST['av_r4']);
+  $post['sin_r4']=check_input($_POST['sin_r4']);
+  $post['other_r4']=check_input($_POST['other_r4']);
+  $post['dos_r5']=check_input($_POST['dos_r5']);
+  $post['hyp_r5']=check_input($_POST['hyp_r5']);
+  $post['av_r5']=check_input($_POST['av_r5']);
+  $post['sin_r5']=check_input($_POST['sin_r5']);
+  $post['other_r5']=check_input($_POST['other_r5']);
+  $post['dos_r6']=check_input($_POST['dos_r6']);
+  $post['hyp_r6']=check_input($_POST['hyp_r6']);
+  $post['av_r6']=check_input($_POST['av_r6']);
+  $post['sin_r6']=check_input($_POST['sin_r6']);
+  $post['other_r6']=check_input($_POST['other_r6']);
+	
+	$class=new secssla();
+	if(isset($_POST['id'])){
+		$class->edit($post, $_POST['id']);
+	}else{
+		$post['patient_id']=$_SESSION['patient_id'];
+		$post['user_id']=$_SESSION['customer_id'];
+		$id=$class->add($post);
+	}
+	}
+	}
+	if ($_POST['do']=="next") redirect("index.php?action=patient_6");
+	elseif ($_POST['do']=="prev") redirect("index.php?action=patient_4");
+	else redirect("index.php?action=case_list".($_SESSION['p']>1?"&p=".$_SESSION['p']:""));
+	exit;
+}
+
+$data=array();
+$specialData['multi']  = array("pre_pci");
+//$specialData['dcimal']  = array("cardiacERT_1","initial_Trop","peak_Trop");
+if($_SESSION['patient_id']){
+	$secsslaClass=new secssla();
+	$secsslaInfo=$secsslaClass->getsecssla((int)$_SESSION['patient_id']);
+	$data=getProcessedData($secsslaClass,$secsslaInfo,$specialData);
+}
+
+require_once(ROOT_PATH.'Tpl/header.html');
+
+if ($noPermission) include "permission_error.html";
+else {
+?>
+<form id="form1" name="form1" method="post" action="" >
+<input type="hidden" name="do" value="next" />
+<input type="hidden" name="finish" value="0" />
+<?if ($secsslaInfo['id']>0) {?><input type="hidden" name="id" value="<?=$secsslaInfo['id']?>" /><?}?>
+<div class="mainPage">
+      <div class="mainPage_bg">
+        <div class="mainContent">
+          <div class="pageBox">
+            <h2 class="titleStyle_01"><span>□ 2<sup>nd</sup> vessel</span></h2>
+            <div class="formSetBox">
+              <h3 class="titleStyle_02">Pre-PCI</h3>
+              <div class="formBox">
+                <div class="formSection no_01">
+                  <div class="formLabel">&nbsp;</div>
+                  <div class="formValue formMedium ">
+                    <label class="no_01">
+                      <input type="checkbox" id="pre_pci" name="pre_pci[]" value="Focal lesion" <?php echo in_array($sec_prepci[1],$data['pre_pci'])?"checked":""?>>
+                      Focal lesion </label>
+                    <label class="no_02">
+                      <input type="checkbox" id="pre_pci" name="pre_pci[]" value="Tandem lesion" <?php echo in_array($sec_prepci[2],$data['pre_pci'])?"checked":""?>>
+                      Tandem lesion (≥2) </label>
+                    <label class="no_03">
+                      <input type="checkbox" id="pre_pci" name="pre_pci[]" value="Long lesion" <?php echo in_array($sec_prepci[3],$data['pre_pci'])?"checked":""?>>
+                      Long lesion (≥20mm) </label>
+                    <label class="no_04">
+                      <input type="checkbox" id="pre_pci" name="pre_pci[]" value="ISR" <?php echo in_array($sec_prepci[4],$data['pre_pci'])?"checked":""?>>
+                      ISR </label>
+                    <label class="no_05">
+                      <input type="checkbox" id="pre_pci" name="pre_pci[]" value="Donated vessel" <?php echo in_array($sec_prepci[5],$data['pre_pci'])?"checked":""?>>
+                      Donated vessel </label>
+                  </div>
+                  <div class="clearfloat"></div>
+                </div>
+                <!---->
+                <div class="formSection no_02">
+                  <div class="formLabel">&nbsp;</div>
+                  <div class="formValue formMedium ">
+                    <label class="no_01">
+                      <input type="checkbox" id="pre_pci" name="pre_pci[]" value="NTG" <?php echo in_array($sec_prepci[6],$data['pre_pci'])?"checked":""?>>
+                      NTG
+                      <input type="text" name="ntg" id="ntg" value="<?php echo $data['ntg'];?>">
+                      mg </label>
+                    <label class="no_02">
+                      <input type="checkbox" id="pre_pci" name="pre_pci[]" value="Isoket" <?php echo in_array($sec_prepci[7],$data['pre_pci'])?"checked":""?>>
+                      Isoket
+                      <input type="text" name="isoket" id="isoket" value="<?php echo $data['isoket'];?>">
+                      mg </label>
+                  </div>
+                  <div class="clearfloat"></div>
+                </div>
+                <!----> 
+              </div>
+            </div>
+            <div class="tableStyleBox_01">
+              <table border="0" cellspacing="0" cellpadding="0">
+                <tbody>
+                  <tr>
+                    <th  align="center" valign="middle" colspan="2">Lesion severity</th>
+                    <th  align="center" valign="middle" colspan="7">Pre-PCI FFR measurement</th>
+                    <th  align="center" valign="middle" colspan="3">Side Effects</th>
+                  </tr>
+                  <tr>
+                    <th  align="center" valign="middle" colspan="1" rowspan="2">Lesion location</th>
+                    <th  align="center" valign="middle" colspan="1" rowspan="2">QCA(%)</th>
+                    <th  align="center" valign="middle" colspan="1" rowspan="2">Resting Pd/Pa</th>
+                    <th  align="center" valign="middle" colspan="2">IV Adenosine</th>
+                    <th  align="center" valign="middle" colspan="4">IC Adenosine</th>
+                    <th  align="center" valign="middle" colspan="3">IV / IC Adenosine</th>
+                  </tr>
+                  <tr>
+                    <th  align="center" valign="middle" colspan="1">Dosage IV (mcg/kg/min)</th>
+                    <th  align="center" valign="middle" colspan="1">Hyperemia FFR Pd/Pa</th>
+                    <th  align="center" valign="middle" colspan="2">Dosage IC(mcg)</th>
+                    <th  align="center" valign="middle" colspan="2">Hyperemia FFR Pd/Pa</th>
+                    <th  align="center" valign="middle" colspan="1">AV block</th>
+                    <th  align="center" valign="middle" colspan="1">Sinus pause</th>
+                    <th  align="center" valign="middle" colspan="1">Others</th>
+                  </tr>
+                  <tr>
+                    <td align="center" valign="middle" rowspan="6" >Seg No:<br><input type="text" name="segno" id="segno" value="<?php echo $data['segno'];?> " style= "width:80px"></td>
+                    <td align="center" valign="middle" rowspan="6" ><input type="text" name="qca" id="qca" value="<?php echo $data['qca'];?> " style= "width:30px"></td>
+                    <td align="center" valign="middle" rowspan="6" ><input type="text" name="r_pdpa" id="r_pdpa" value="<?php echo $data['r_pdpa'];?> " style= "width:60px"></td>
+                    <td align="center" valign="middle" rowspan="6" ><input type="text" name="dosage_iv" id="dosage_iv" value="<?php echo $data['dosage_iv'];?> " style= "width:80px"></td>
+                    <td align="center" valign="middle" rowspan="6" ><input type="text" name="hy_pdpa" id="hy_pdpa" value="<?php echo $data['hy_pdpa'];?> " style= "width:80px"></td>
+                    <td align="center" valign="middle" width="50">Run1</td>
+                    <td align="center" valign="middle" width="50"><input type="text" name="dos_r1" id="dos_r1" value="<?php echo $data['dos_r1'];?> " style= "width:40px"></td>
+                    <td align="center" valign="middle" width="50">Run1</td>
+                    <td align="center" valign="middle" width="50"><input type="text" name="hyp_r1" id="hyp_r1" value="<?php echo $data['hyp_r1'];?> " style= "width:40px"></td>
+                    <td align="center" valign="middle" width="50"><input type="text" name="av_r1" id="av_r1" value="<?php echo $data['av_r1'];?> " style= "width:40px"></td>
+                    <td align="center" valign="middle" width="50"><input type="text" name="sin_r1" id="sin_r1" value="<?php echo $data['sin_r1'];?> " style= "width:40px"></td>
+                    <td align="center" valign="middle" width="50"><input type="text" name="other_r1" id="other_r1" value="<?php echo $data['other_r1'];?> " style= "width:40px"></td>
+                  </tr>
+                  <tr class="tdBgColor">
+                    <td align="center" valign="middle">Run2</td>
+                    <td align="center" valign="middle"><input type="text" name="dos_r2" id="dos_r2" value="<?php echo $data['dos_r2'];?> " style= "width:40px"></td>
+                    <td align="center" valign="middle">Run2</td>
+                    <td align="center" valign="middle"><input type="text" name="hyp_r2" id="hyp_r2" value="<?php echo $data['hyp_r2'];?> " style= "width:40px"></td>
+                    <td align="center" valign="middle"><input type="text" name="av_r2" id="av_r2" value="<?php echo $data['av_r2'];?> " style= "width:40px"></td>
+                    <td align="center" valign="middle"><input type="text" name="sin_r2" id="sin_r2" value="<?php echo $data['sin_r2'];?> " style= "width:40px"></td>
+                    <td align="center" valign="middle"><input type="text" name="other_r2" id="other_r2" value="<?php echo $data['other_r2'];?> " style= "width:40px"></td>
+                  </tr>
+                  <tr>
+                    <td align="center" valign="middle">Run3</td>
+                    <td align="center" valign="middle"><input type="text" name="dos_r3" id="dos_r3" value="<?php echo $data['dos_r3'];?> " style= "width:40px"></td>
+                    <td align="center" valign="middle">Run3</td>
+                    <td align="center" valign="middle"><input type="text" name="hyp_r3" id="hyp_r3" value="<?php echo $data['hyp_r3'];?> " style= "width:40px"></td>
+                    <td align="center" valign="middle"><input type="text" name="av_r3" id="av_r3" value="<?php echo $data['av_r3'];?> " style= "width:40px"></td>
+                    <td align="center" valign="middle"><input type="text" name="sin_r3" id="sin_r3" value="<?php echo $data['sin_r3'];?> " style= "width:40px"></td>
+                    <td align="center" valign="middle"><input type="text" name="other_r3" id="other_r3" value="<?php echo $data['other_r3'];?> " style= "width:40px"></td>
+                  </tr>
+                  <tr class="tdBgColor">
+                    <td align="center" valign="middle">Run4</td>
+                    <td align="center" valign="middle"><input type="text" name="dos_r4" id="dos_r4" value="<?php echo $data['dos_r4'];?> " style= "width:40px"></td>
+                    <td align="center" valign="middle">Run4</td>
+                    <td align="center" valign="middle"><input type="text" name="hyp_r4" id="hyp_r4" value="<?php echo $data['hyp_r4'];?> " style= "width:40px"></td>
+                    <td align="center" valign="middle"><input type="text" name="av_r4" id="av_r4" value="<?php echo $data['av_r4'];?> " style= "width:40px"></td>
+                    <td align="center" valign="middle"><input type="text" name="sin_r4" id="sin_r4" value="<?php echo $data['sin_r4'];?> " style= "width:40px"></td>
+                    <td align="center" valign="middle"><input type="text" name="other_r4" id="other_r4" value="<?php echo $data['other_r4'];?> " style= "width:40px"></td>
+                  </tr>
+                  <tr>
+                    <td align="center" valign="middle">Run5</td>
+                    <td align="center" valign="middle"><input type="text" name="dos_r5" id="dos_r5" value="<?php echo $data['dos_r5'];?> " style= "width:40px"></td>
+                    <td align="center" valign="middle">Run5</td>
+                    <td align="center" valign="middle"><input type="text" name="hyp_r5" id="hyp_r5" value="<?php echo $data['hyp_r5'];?> " style= "width:40px"></td>
+                    <td align="center" valign="middle"><input type="text" name="av_r5" id="av_r5" value="<?php echo $data['av_r5'];?> " style= "width:40px"></td>
+                    <td align="center" valign="middle"><input type="text" name="sin_r5" id="sin_r5" value="<?php echo $data['sin_r5'];?> " style= "width:40px"></td>
+                    <td align="center" valign="middle"><input type="text" name="other_r5" id="other_r5" value="<?php echo $data['other_r5'];?> " style= "width:40px"></td>
+                  </tr>
+                  <tr class="tdBgColor">
+                    <td align="center" valign="middle">Run6</td>
+                    <td align="center" valign="middle"><input type="text" name="dos_r6" id="dos_r6" value="<?php echo $data['dos_r6'];?> " style= "width:40px"></td>
+                    <td align="center" valign="middle">Run6</td>
+                    <td align="center" valign="middle"><input type="text" name="hyp_r6" id="hyp_r6" value="<?php echo $data['hyp_r6'];?> " style= "width:40px"></td>
+                    <td align="center" valign="middle"><input type="text" name="av_r6" id="av_r6" value="<?php echo $data['av_r6'];?> " style= "width:40px"></td>
+                    <td align="center" valign="middle"><input type="text" name="sin_r6" id="sin_r6" value="<?php echo $data['sin_r6'];?> " style= "width:40px"></td>
+                    <td align="center" valign="middle"><input type="text" name="other_r6" id="other_r6" value="<?php echo $data['other_r6'];?> " style= "width:40px"></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+               <?php require_once(ROOT_PATH.'Tpl/footer_button.html');?>
+              </div>
+            </div>
+            
+          </div>
+        </div>
+      </div>
+</div>
+</form>
+<script type="text/javascript">
+<!--
+<?if ($ModifyPermission) {?>
+$(document).ready(function(){
+	$("input[name='cardiacERT_1[0]'],input[name='initial_Trop[0]'],input[name='peak_Trop[0]']").keyup(function(e){
+        if (e.keyCode == 190 || e.keyCode == 110) {
+		var obj=$(this).attr('name').replace("[0]", "[1]");
+		var str=$(this).val();
+        str=str.replace(".", "");
+        $(this).val(str);
+		$("input[name='"+obj+"']").focus();
+		}
+    });
+})
+<?}?>
+function checkForm() {
+	// var status=0; //0 未填,1 有填
+	var ckField;
+	var finish = 0;
+	var status = new Array();
+	var msg = new Array();
+	var finish_stuts = new Array();
+	 ckField=$("input[name=ntg]").val();
+	 if (ckField=='') {status.push(0);msg.push("ntg is Unfilled!");} else status.push(1);
+	 ckField=$("input[name=isoket]").val();
+	 if (ckField=='') {status.push(0);msg.push("isoket is Unfilled!");} else status.push(1);
+	if ($("input[name='pre_pci[]']:checked").length==0 ) {status.push(0);msg.push("pre_pci is not selected!");} else status.push(1);
+	// ckField=$("input[name=initial_CK]").val();
+	// if (ckField=='') {status.push(0);msg.push("Initial CK is Unfilled!");} else status.push(1);
+	// ckField=$("input[name=initial_CKMB]").val();
+	// if (ckField=='') {status.push(0);msg.push("Initial CKMB is Unfilled!");} else status.push(1);
+	// ckField=$("input[name=initial_IT]:checked").val();
+	// if (ckField=='' || typeof(ckField)=='undefined') {status.push(0);msg.push("Initial I or T is not selected!");} else status.push(1);
+	// ckField=$("input[name='initial_Trop[0]']").val();
+	// if (ckField=='') {status.push(0);msg.push("Initial Trop is Unfilled!");} else status.push(1);
+	// ckField=$("input[name=peak_CK]").val();
+	// if (ckField=='') {status.push(0);msg.push("Peak CK is Unfilled!");} else status.push(1);
+	// ckField=$("input[name=peak_CKMB]").val();
+	// if (ckField=='') {status.push(0);msg.push("Peak CKMB is Unfilled!");} else status.push(1);
+	// ckField=$("input[name=peak_IT]:checked").val();
+	// if (ckField=='' || typeof(ckField)=='undefined') {status.push(0);msg.push("Peak I or T is not selected!");} else status.push(1);
+	// ckField=$("input[name='peak_Trop[0]']").val();
+	// if (ckField=='') {status.push(0);msg.push("Peak Trop is Unfilled!");} else status.push(1);
+
+	for (key in status) {
+		finish+=status[key];
+	}
+	if (finish==status.length) finish_stuts['status']=1;
+	else if (finish==0) finish_stuts['status']=0;
+	else finish_stuts['status']=-1;
+	finish_stuts['msg'] = msg.join("\n");
+	return finish_stuts;
+}
+//-->
+</script>
+<?php
+}
+require_once(ROOT_PATH.'Tpl/footer.html');
+?>
