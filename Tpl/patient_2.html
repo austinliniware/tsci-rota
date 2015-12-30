@@ -17,7 +17,7 @@ if($_POST){
 	$post=array();
 	//$post['symptom_onset']=(trim($_POST['symptom_onset']['date'])!=""?date("Y-m-d H:i",strtotime($_POST['symptom_onset']['date'].' '.$_POST['symptom_onset']['h'].':'.$_POST['symptom_onset']['m'])):"");
 	//$post['TFAhospital']=check_number($_POST['TFAhospital']);
-	
+	        retstsets
   
   $post['p_procedure']=(is_array($_POST['p_procedure'])?check_input(implode(",", $_POST['p_procedure'])):"");
   $post['equipment']=(is_array($_POST['equipment'])?check_input(implode(",", $_POST['equipment'])):"");
